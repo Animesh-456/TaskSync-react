@@ -3,12 +3,15 @@ import React from 'react';
 import task from '../public/img/task.svg'
 import textAtom from '../jotai/atom';
 import { atom, useAtom } from 'jotai'
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 function Home() {
-
+  const navigate = useNavigate();
   const [atomValue] = useAtom(textAtom)
 
   console.log("atomvalue is", atomValue)
+  const handleSignup = () => {
+    navigate('/signup');
+  }
   return (
     <div className="container">
       <div className="box1">
@@ -19,11 +22,12 @@ function Home() {
           your team's tasks in one centralized location</p>
         <p> Sign up now to streamline your team's workflow and increase productivity!</p>
 
-        <Link style={{ textDecoration: 'none', color: '#fff' }} to='/signup'>
-          <div className="btn-container">
-            <button className="signup-btn">SignUp</button>
-          </div>
-        </Link>
+
+        <div className="btn-container">
+          <button className="signup-btn" onClick={handleSignup}>SignUp</button>
+          {/* <Link className="signup-btn" style={{ textDecoration: 'none', color: '#fff' }} to='/signup'>SignUp</Link> */}
+        </div>
+
 
       </div>
       <div className="box2">

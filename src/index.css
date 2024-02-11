@@ -109,7 +109,7 @@ code {
 
 .container {
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -120,47 +120,22 @@ code {
 @media screen and (max-width: 768px) {
   .container {
     flex-direction: column;
-    /* align-items: center;
-      justify-content: center; */
+    gap: 5rem;
   }
 
-
-  .box1 {
+  .container .box1, .box2 {
     height: 400px;
     width: 300px;
-    /* box-sizing: border-box; */
-    /* border: 2px solid rgb(127, 125, 125); */
     margin: 10px;
     padding: 10px;
   }
-
-
-  .box2 {
-    margin: 40px;
-    padding: 10px;
-    height: 300px;
-    width: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* .box1 {
-      align-items: center;
-      justify-content: center;
-  }
-
-  .box2 {
-      align-items: center;
-      justify-content: center;
-  } */
 }
 
 
 .box1 {
-  height: 300px;
-  width: 400px;
-  /* box-sizing: border-box; */
+  height: 400px;
+  width: 600px;
+  box-sizing: border-box;
   /* border: 2px solid rgb(127, 125, 125); */
   margin: 70px;
   padding: 20px;
@@ -174,13 +149,13 @@ code {
 }
 
 
-.box1 button {
+.box1 .signup-btn {
   color: white;
   background-color: rgb(242, 56, 56);
   margin: auto;
   padding: 12px;
   height: 50px;
-  width: 150px;
+  width: 10rem;
   font-weight: bold;
   border-radius: 15px;
   cursor: pointer;
@@ -192,7 +167,7 @@ code {
 }
 
 
-.box1 button:hover {
+.box1 .signup-btn:hover {
   border: 2px solid black;
   transform: scale(1.1);
   font-size: 17px;
@@ -206,6 +181,7 @@ code {
   display: flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
 }
 
 
@@ -249,7 +225,7 @@ code {
 .form-box {
   /* background-color: yellow; */
   height: 100%;
-  width: 500px;
+  width: 200px;
   margin: 2rem;
   padding: 2rem;
   display: flex;
