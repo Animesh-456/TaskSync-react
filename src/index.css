@@ -124,6 +124,27 @@ code {
       justify-content: center; */
   }
 
+
+  .box1 {
+    height: 400px;
+    width: 300px;
+    /* box-sizing: border-box; */
+    /* border: 2px solid rgb(127, 125, 125); */
+    margin: 10px;
+    padding: 10px;
+  }
+
+
+  .box2 {
+    margin: 40px;
+    padding: 10px;
+    height: 300px;
+    width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   /* .box1 {
       align-items: center;
       justify-content: center;
