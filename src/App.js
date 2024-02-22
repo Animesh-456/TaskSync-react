@@ -8,7 +8,10 @@ import Contact from './components/Contact';
 import Login from './components/Login';
 import Nav from './components/Nav';
 import Signup from './components/Signup';
-import './App.css';
+import Dashboard from './components/Dash';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './styles.css';
+
 
 function App() {
   return (
@@ -22,6 +25,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </div>
     </>
