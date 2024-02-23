@@ -1,5 +1,5 @@
 // App.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Link, Routes } from 'react-router-dom';
 import Home from './components/Home';
 import About from './components/About';
@@ -9,15 +9,28 @@ import Login from './components/Login';
 import Nav from './components/Nav';
 import Signup from './components/Signup';
 import Dashboard from './components/Dash';
+import Assign from './components/Assign';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.css';
 
 
+
 function App() {
+
+  const [loc, setloc] = useState();
+
+
+  useEffect(() => {
+    setloc(window.location.pathname)
+  }, [window.location.pathname])
+
+  const excludeNavRoutes = ['/dashboard', '/login', '/signup', '/assign'];
+  const excludeSidebarRoutes = ['/login', '/signup', '/'];
   return (
     <>
       <div className="app">
-        <Nav />
+        {excludeNavRoutes.includes(loc) ? null : <Nav />}
+        {/* {excludeSidebarRoutes.includes(window.location.pathname) ? null : <Sidebar />} */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
@@ -26,8 +39,11 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path='/assign' element={<Assign />} />
         </Routes>
+
       </div>
+
     </>
   );
 }
