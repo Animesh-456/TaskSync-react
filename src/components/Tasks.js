@@ -1,11 +1,10 @@
 import { React, useState } from 'react'
 import Sidebar from './Sidebar'
 import Form from 'react-bootstrap/Form';
-import AssignedTasks from './AssignedTasks';
 import Pagination from 'react-bootstrap/Pagination';
-import UnassignedTasks from './UnassignedTasks';
-const Assign = () => {
-
+import PendingTaks from './PendingTaks';
+import CompletedTasks from './CompletedTasks';
+const Tasks = () => {
     const v = [
         {
             a: "Task One"
@@ -56,7 +55,7 @@ const Assign = () => {
     }
 
 
-    const [selectValue, setSelectValue] = useState('Unassigned');
+    const [selectValue, setSelectValue] = useState('Pending');
 
     // Event handler to update the select value
     const handleSelectChange = (event) => {
@@ -76,23 +75,25 @@ const Assign = () => {
                     <div className='assign-child'>
                         <div>
                             <select value={selectValue} onChange={handleSelectChange}>
-                                <option value="Unassigned">
-                                    Unassigned
+
+                                <option value="Pending">
+                                    Pending Tasks
                                 </option>
-                                <option value="Assigned">
-                                    Assigned
+                                <option value="Completed">
+                                    Completed Tasks
                                 </option>
+
                             </select>
                         </div>
                     </div>
 
                     <div className='assign-child'>
 
-                        {selectValue == "Unassigned" ? (
+                        {selectValue == "Pending" ? (
                             <div>
                                 {v.map((l, index) => {
                                     return (
-                                        <UnassignedTasks prop={l?.a} />
+                                        <PendingTaks prop={l?.a} />
                                     )
                                 })}
                             </div>
@@ -100,7 +101,7 @@ const Assign = () => {
                             <div>
                                 {b.map((l, index) => {
                                     return (
-                                        <AssignedTasks prop={l?.a} />
+                                        <CompletedTasks prop={l?.a} />
                                     )
                                 })}
                             </div>
@@ -118,4 +119,4 @@ const Assign = () => {
     )
 }
 
-export default Assign
+export default Tasks

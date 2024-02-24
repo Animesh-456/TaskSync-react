@@ -58,7 +58,7 @@ const Sidebar = () => {
                     <li>
 
                         {/* Put condition here for employee or assigner later 👇 */}
-                        <Link to='/dashboard' style={{ textDecoration: 'none', color: '#000' }}>
+                        <Link to='/assign' style={{ textDecoration: 'none', color: '#000' }}>
                             <div className='li-div'>
                                 <div><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="red" class="bi bi-list-task" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5zM3 3H2v1h1z" />
@@ -75,7 +75,7 @@ const Sidebar = () => {
                     <li>
 
                         {/* Put condition here for employee or assigner later 👇 */}
-                        <Link to='/dashboard' style={{ textDecoration: 'none', color: '#000' }}>
+                        <Link to='/task' style={{ textDecoration: 'none', color: '#000' }}>
                             <div className='li-div'>
                                 <div><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="red" class="bi bi-list-task" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5zM3 3H2v1h1z" />

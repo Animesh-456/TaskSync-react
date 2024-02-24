@@ -10,6 +10,7 @@ import Nav from './components/Nav';
 import Signup from './components/Signup';
 import Dashboard from './components/Dash';
 import Assign from './components/Assign';
+import Tasks from './components/Tasks';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.css';
 
@@ -24,7 +25,7 @@ function App() {
     setloc(window.location.pathname)
   }, [window.location.pathname])
 
-  const excludeNavRoutes = ['/dashboard', '/login', '/signup', '/assign'];
+  const excludeNavRoutes = ['/dashboard', '/login', '/signup', '/assign','/task'];
   const excludeSidebarRoutes = ['/login', '/signup', '/'];
   return (
     <>
@@ -40,6 +41,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path='/assign' element={<Assign />} />
+          <Route path='/task' element={<Tasks />} />
         </Routes>
 
       </div>
