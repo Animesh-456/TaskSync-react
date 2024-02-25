@@ -366,6 +366,26 @@ button {
 
 /* Dashboard styles */
 
+.plus-sign {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    margin-right: 1.5rem;
+    padding-right: 1rem;
+    cursor: pointer;
+    color: white;
+    z-index: 9999;
+    background-color: #f30e0e;  
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    border-radius: 2rem;
+    height: 2.5rem;
+    width: auto;
+    text-decoration: none;
+}
+
 .dashboard-main-container {
     display: flex;
     flex-direction: row;
@@ -478,6 +498,15 @@ button {
     justify-content: start;
 }
 
+.assign-child2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    gap: 2rem;
+    padding-bottom: 2rem;
+    padding-top: 2rem;
+}
+
 
 .assign-child select {
     padding: 0.3rem;
@@ -500,21 +529,114 @@ button {
         width: auto;
         height: auto;
     }
+
+    .assign-child2 {
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        gap: 2rem;
+        padding-bottom: 2rem;
+        padding-top: 2rem;
+    }
 }
 
 
 /* Large modal  */
 
 
-.lg-modal-container{
+.lg-modal-container {
     display: flex;
     flex-direction: column;
     margin: 2px;
     padding: 2px;
 }
 
-.lg-modal-child{
+.lg-modal-child {
     display: flex;
     flex-direction: row;
     gap: 3rem;
+}
+
+
+
+/* Add Task Page design */
+
+.task-main-container {
+    display: flex;
+    flex-direction: column;
+    /* margin: 1px;
+    padding: 1px; */
+    height: 100vh;
+    width: 100vw;
+}
+
+
+.task-child-container1 {
+    background-color: rgb(220, 34, 34);
+    width: 100%;
+    height: 30%;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: aliceblue;
+}
+
+.task-child-container2 {
+    margin: 10px 50px 10px 50px;
+    padding: 10px;
+    /* display: flex;
+   flex-direction: row; */
+}
+
+
+.add-tsk-btn-container {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+}
+
+
+.back-arrow-btn-container {
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 15px;
+    /* Optional: Add some padding around the icon */
+    text-decoration: none;
+    cursor: pointer;
+    color: #fff;
+}
+
+.back-arrow-btn-container1 {
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 15px;
+    /* Optional: Add some padding around the icon */
+    text-decoration: none;
+    cursor: pointer;
+    color: #fff;
+}
+
+
+@media screen and (max-width: 768px) {
+    .task-child-container1 {
+        height: 20%;
+    }
+
+    .task-child-container2 {
+        /* margin-top: 50px; */
+        margin: 50px 1px 10px 1px;
+        padding: 10px;
+        /* display: flex;
+        flex-direction: row; */
+    }
+
+
 }

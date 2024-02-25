@@ -13,6 +13,9 @@ import Assign from './components/Assign';
 import Tasks from './components/Tasks';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.css';
+import Profile from './components/Profile';
+import AddTask from './components/AddTask';
+import AssignTask from './components/AssignTask';
 
 
 
@@ -25,7 +28,7 @@ function App() {
     setloc(window.location.pathname)
   }, [window.location.pathname])
 
-  const excludeNavRoutes = ['/dashboard', '/login', '/signup', '/assign','/task'];
+  const excludeNavRoutes = ['/dashboard', '/login', '/signup', '/assign','/task', '/profile','/addtask','/assigntask'];
   const excludeSidebarRoutes = ['/login', '/signup', '/'];
   return (
     <>
@@ -42,6 +45,9 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path='/assign' element={<Assign />} />
           <Route path='/task' element={<Tasks />} />
+          <Route path='/profile' element={<Profile />} />
+          <Route path='/addtask' element={<AddTask />} />
+          <Route path='/assigntask' element={<AssignTask />} />
         </Routes>
 
       </div>
