@@ -1,4 +1,7 @@
-import { atom, useAtom } from 'jotai'
+import { atom } from "jotai";
+import { atomWithStorage } from 'jotai/utils'
+const storage = {
+    user: atomWithStorage("user", null)
+};
 
-const textAtom = atom('hello');
-export default textAtom;
+export default storage

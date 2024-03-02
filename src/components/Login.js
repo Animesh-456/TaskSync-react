@@ -1,7 +1,51 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-
+import login from '../controller/employee/login';
+import common from '../helpers/common'
+import { loginschema, regschema } from '../validation/emp/empschema';
 const Login = () => {
+
+
+  const [user, setuser] = useState({
+    email: "",
+    //account_type: "Assigner",
+    password: "",
+  })
+
+
+
+  const [check, setcheck] = useState(false)
+
+  const setprofile = common(setuser)
+
+
+
+  const handelsubmit = () => {
+
+
+    const { error } = loginschema.validate(user)
+    if (error) {
+      alert(error.message)
+      return
+    }
+    login(user).then(response => {
+      if (response.toString() == "true") {
+        alert("Logged in!")
+        //toast.success("Logged in!")
+        window.location.href = "/dashboard"
+      } else {
+        alert("Invalid Email or Password")
+        //toast.error("Invalid Email or Password")
+      }
+    }).catch(error => {
+      console.log("Error is ", error)
+      alert("Error")
+      //toast.error(error)
+    })
+  }
+
+  console.log("checkbox state:- ", check)
+  console.log("user data is :-", user)
   return (
     <>
       {/* <div className='log-container'>
@@ -55,9 +99,9 @@ const Login = () => {
 
       <div className="form-cont">
         <h2>Login to <span style={{ color: 'red' }}> T</span>ask<span style={{ color: 'red' }}>S</span>ync</h2>
-        <form>
+        <form onSubmit={handelsubmit}>
           <label htmlFor="name">Email/Username:</label>
-          <input placeholder='Username or Email' type="email" id="email" name="email" />
+          <input placeholder='Username or Email' type="email" value={user.email} onChange={setprofile("email")} id="email" name="email" />
 
           <label htmlFor="name">Type Of account</label>
           <select id="account-type">
@@ -66,11 +110,11 @@ const Login = () => {
           </select>
 
           <label htmlFor="email">Password:</label>
-          <input placeholder="Password" type="password" id="password" name="password" />
+          <input placeholder="Password" value={user.password} onChange={setprofile("password")} type="password" id="password" name="password" />
 
 
-          <button type="submit">Submit</button>
         </form>
+        <button onClick={handelsubmit}>Submit</button>
       </div>
     </>
   )

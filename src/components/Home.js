@@ -1,15 +1,11 @@
 // Home.js
 import React from 'react';
 import task from '../public/img/task.svg'
-import textAtom from '../jotai/atom';
-import { atom, useAtom } from 'jotai'
 import { useNavigate } from 'react-router-dom';
 import Nav from './Nav';
 function Home() {
   const navigate = useNavigate();
-  const [atomValue] = useAtom(textAtom)
-
-  console.log("atomvalue is", atomValue)
+ 
   const handleSignup = () => {
     navigate('/signup');
   }

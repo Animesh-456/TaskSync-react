@@ -7,6 +7,11 @@ const Sidebar = () => {
 
     const handleCloseLoginmodal = () => setShowloginmodal(false);
     const handleShowLoginmodal = () => setShowloginmodal(true);
+
+    const confirmlogout = () => {
+        window.location.href = "/"
+        localStorage.removeItem("empdetails")
+    }
     return (
 
         <div className='sidebar-container'>
@@ -21,8 +26,7 @@ const Sidebar = () => {
                         <Button variant="secondary" onClick={handleCloseLoginmodal}>
                             Close
                         </Button>
-                        <Button variant="danger" onClick={handleCloseLoginmodal}>
-
+                        <Button variant="danger" onClick={confirmlogout}>
                             Logout
                         </Button>
                     </Modal.Footer>
