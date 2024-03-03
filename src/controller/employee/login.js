@@ -1,5 +1,8 @@
 import axios from "axios"
+import { useSetAtom } from "jotai";
+import useratom from "../../jotai/atom";
 const URL = 'http://localhost:4000';
+
 const login = async (user) => {
     let usrstatus;
     const response = await axios.post(`${URL}/login`, user).then(resp => {
@@ -15,6 +18,8 @@ const login = async (user) => {
                 token: `${String(resp.data.token)}`
             }
             localStorage.setItem("empdetails", JSON.stringify(obj))
+            // useratom = useSetAtom(JSON.stringify(obj));
+            useratom.write(JSON.stringify(obj))
         }
     }).catch(error => {
         console.log(error)

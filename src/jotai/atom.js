@@ -1,7 +1,5 @@
 import { atom } from "jotai";
 import { atomWithStorage } from 'jotai/utils'
-const storage = {
-    user: atomWithStorage("user", null)
-};
+const useratom = atom(null);
 
-export default storage
+export default useratom

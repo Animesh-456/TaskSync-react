@@ -9,6 +9,8 @@ import Card from 'react-bootstrap/Card';
 import RecentTasks from './RecentTasks';
 import { Button, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { useAtom } from 'jotai'
+import useratom from '../jotai/atom';
 const Dash = () => {
 
     const v = [
@@ -69,13 +71,18 @@ const Dash = () => {
     };
 
 
+    const [user, setuser] = useAtom(useratom)
+
+
+    console.log("User details is :-", useratom)
+
 
     return (
         <>
             <div className='dashboard-main-container'>
                 <Sidebar />
 
-               
+
                 <div className='assign-task-container'>
                     <div className='asgn'>
                         <div className='assign-child'>

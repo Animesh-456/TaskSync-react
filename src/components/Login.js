@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import login from '../controller/employee/login';
 import common from '../helpers/common'
 import { loginschema, regschema } from '../validation/emp/empschema';
+import toast from 'react-hot-toast';
 const Login = () => {
 
 
@@ -25,22 +26,19 @@ const Login = () => {
 
     const { error } = loginschema.validate(user)
     if (error) {
-      alert(error.message)
+      toast.error(error.message)
       return
     }
     login(user).then(response => {
       if (response.toString() == "true") {
-        alert("Logged in!")
-        //toast.success("Logged in!")
+        toast.success("Logged in!")
         window.location.href = "/dashboard"
       } else {
-        alert("Invalid Email or Password")
-        //toast.error("Invalid Email or Password")
+        toast.error("Invalid Email or Password")
       }
     }).catch(error => {
       console.log("Error is ", error)
-      alert("Error")
-      //toast.error(error)
+      toast.error(error)
     })
   }
 

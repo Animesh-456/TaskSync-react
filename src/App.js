@@ -1,6 +1,10 @@
 // App.js
 import React, { useEffect, useState } from 'react';
 import { Route, Link, Routes } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+import { Provider } from 'jotai'
+
+
 import Home from './components/Home';
 import About from './components/About';
 import Services from './components/Services';
@@ -34,30 +38,33 @@ function App() {
   return (
     <>
       <div className="app">
-        {excludeNavRoutes.includes(loc) ? null : <Nav />}
-        {/* {excludeSidebarRoutes.includes(window.location.pathname) ? null : <Sidebar />} */}
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+        <Provider>
+          <Toaster />
+          {excludeNavRoutes.includes(loc) ? null : <Nav />}
+          {/* {excludeSidebarRoutes.includes(window.location.pathname) ? null : <Sidebar />} */}
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
 
 
-          <Route element={<ProtectedRoutes />}>
-            <Route path='/dashboard' element={<Dashboard />} />
-            <Route path='/assign' element={<Assign />} />
-            <Route path='/task' element={<Tasks />} />
-            <Route path='/profile' element={<Profile />} />
-            <Route path='/addtask' element={<AddTask />} />
-            <Route path='/assigntask' element={<AssignTask />} />
-          </Route>
-          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+            <Route element={<ProtectedRoutes />}>
+              <Route path='/dashboard' element={<Dashboard />} />
+              <Route path='/assign' element={<Assign />} />
+              <Route path='/task' element={<Tasks />} />
+              <Route path='/profile' element={<Profile />} />
+              <Route path='/addtask' element={<AddTask />} />
+              <Route path='/assigntask' element={<AssignTask />} />
+            </Route>
+            {/* <Route path="/dashboard" element={<Dashboard />} /> */}
 
-        </Routes>
+          </Routes>
+        </Provider>
 
-      </div>
+      </div >
 
     </>
   );
