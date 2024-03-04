@@ -375,7 +375,7 @@ button {
     cursor: pointer;
     color: white;
     z-index: 9999;
-    background-color: #f30e0e;  
+    background-color: #f30e0e;
     display: flex;
     flex-direction: row;
     gap: 1rem;
@@ -637,6 +637,30 @@ button {
         /* display: flex;
         flex-direction: row; */
     }
+
+
+}
+
+
+
+
+.completed-status {
+    background-color: green;
+    color: azure;
+    height: 30px;
+    width: auto;
+    border-radius: 1rem;
+    margin: 2px;
+    padding: 5px;
+}
+
+
+
+.splitcnt {
+
+    display: flex;
+    flex-direction: row;
+    gap: 5rem;
 
 
 }

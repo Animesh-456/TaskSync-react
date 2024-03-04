@@ -13,7 +13,7 @@ const TaskModal = ({ show, onHide, detail }) => {
         >
             <Modal.Header closeButton>
                 <Modal.Title id="example-modal-sizes-title-lg">
-                    {detail}
+                    {detail?.title}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -22,35 +22,36 @@ const TaskModal = ({ show, onHide, detail }) => {
 
                         <div className='lg-modal-child'>
                             <div><h5>Task ID:-</h5></div>
-                            <div><p>ID</p></div>
+                            <div><p>{detail?._id}</p></div>
                         </div>
                     </div>
 
                     <div className='lg-modal-child'>
                         <div><h5>Task Description</h5></div>
-                        <div><p> With supporting text below as a natural lead-in to additional content.
-                            With supporting text below as a natural lead-in to additional content With supporting text below as a natural lead-in to additional content.
-                            With supporting text below as a natural lead-in to additional content With supporting text below as a natural lead-in to additional content.
-                            With supporting text below as a natural lead-in to additional content With supporting text below as a natural lead-in to additional content.
-                            With supporting text below as a natural lead-in to additional content</p></div>
+                        <div><p> {detail?.description}</p></div>
 
                     </div>
 
                     <div className='lg-modal-child'>
                         <div><h5>Assigned By</h5></div>
-                        <div><p>Animesh Mondal</p></div>
+                        <div><p>{detail?.assignedBy?.fname}</p></div>
                     </div>
 
 
                     <div className='lg-modal-child'>
                         <div><h5>Assigned To</h5></div>
-                        <div><p>Animesh Mondal</p></div>
+                        <div><p>{detail?.assignedTo?.fname}</p></div>
                     </div>
 
 
                     <div className='lg-modal-child'>
                         <div><h5>Task Status</h5></div>
-                        <div><p>Pending/Completed</p></div>
+                        {detail?.status == 'complete' ? (
+                            <div><p style={{ color: 'rgb(76, 187, 23)', fontWeight: 'bold' }}>{detail?.status}</p></div>
+                        ) : (
+                            <div><p style={{ color: '#FFC300', fontWeight: 'bold' }}>{detail?.status}</p></div>
+                        )}
+
                     </div>
 
                 </div>

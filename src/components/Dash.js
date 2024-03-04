@@ -1,4 +1,4 @@
-import { React, useState } from 'react'
+import { React, useState, useEffect } from 'react'
 import Sidebar from './Sidebar'
 import Form from 'react-bootstrap/Form';
 import Pagination from 'react-bootstrap/Pagination';
@@ -11,6 +11,11 @@ import { Button, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useAtom } from 'jotai'
 import useratom from '../jotai/atom';
+
+import common from '../helpers/common'
+import { getUser, recentTasks, createdrecentTasks, updateemployee } from '../api/endpoints'
+import toast from 'react-hot-toast';
+
 const Dash = () => {
 
     const v = [
@@ -71,12 +76,62 @@ const Dash = () => {
     };
 
 
-    const [user, setuser] = useAtom(useratom)
 
 
-    console.log("User details is :-", useratom)
 
 
+
+
+
+
+
+
+    // Logic
+
+
+    const [empdetails, setempdetails] = useState([]);
+    const [recenttasks, setrecenttasks] = useState([]);
+    const [createdrecent, setcreatedrecent] = useState([]);
+
+
+    useEffect(() => {
+        const userdata = localStorage.getItem('empdetails');
+        const token = JSON.parse(userdata);
+
+
+        getUser(token).then(d => {
+
+            console.log("data is ", d.status)
+            setempdetails(d.data)
+
+        }).catch(error => {
+            toast.error(error)
+        })
+
+
+        recentTasks(token.id).then(d => {
+            if (d.status == 201) {
+                setrecenttasks(d.data)
+            }
+        }).catch(error => {
+            toast.error(error)
+        })
+
+        createdrecentTasks(token.id).then(d => {
+            if (d.status == 201) {
+                setcreatedrecent(d.data)
+            }
+        }).catch(error => {
+            toast.error(error)
+        })
+    }, [])
+
+
+
+
+
+
+    console.log("Local str")
     return (
         <>
             <div className='dashboard-main-container'>
@@ -85,22 +140,25 @@ const Dash = () => {
 
                 <div className='assign-task-container'>
                     <div className='asgn'>
-                        <div className='assign-child'>
-                            <div>
-                                <h4>Account Details</h4>
-                            </div>
+                        {empdetails && empdetails?.account_type == 'Assigner' && (
 
-                            <a href='/addtask' className='plus-sign'>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
-                                </svg>
+                            <div className='assign-child'>
                                 <div>
-                                    <h6>Add Task</h6>
+                                    <h4>Account Details</h4>
                                 </div>
 
-                            </a>
-                        </div>
+                                <a href='/addtask' className='plus-sign'>
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+                                    </svg>
+                                    <div>
+                                        <h6>Add Task</h6>
+                                    </div>
+
+                                </a>
+                            </div>
+                        )}
 
                         <div className='assign-child2'>
                             <div>
@@ -109,7 +167,7 @@ const Dash = () => {
                                         <Card.Title>My name</Card.Title>
                                         {/* <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle> */}
                                         <Card.Text>
-                                            Animesh Mondal
+                                            {empdetails?.fname + " " + empdetails?.lname}
                                         </Card.Text>
 
                                     </Card.Body>
@@ -122,7 +180,7 @@ const Dash = () => {
                                         <Card.Title>My Email</Card.Title>
                                         {/* <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle> */}
                                         <Card.Text>
-                                            anim29006@gmail.com
+                                            {empdetails?.email}
                                         </Card.Text>
 
                                     </Card.Body>
@@ -136,7 +194,7 @@ const Dash = () => {
                                         <Card.Title>Type of Account</Card.Title>
                                         {/* <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle> */}
                                         <Card.Text>
-                                            Assigner
+                                            {empdetails?.account_type}
                                         </Card.Text>
 
                                     </Card.Body>
@@ -159,9 +217,9 @@ const Dash = () => {
 
 
                             <div>
-                                {v.map((l, index) => {
+                                {createdrecent?.length && createdrecent.map((l, index) => {
                                     return (
-                                        <RecentTasks prop={l?.a} />
+                                        <RecentTasks prop={l} />
                                     )
                                 })}
                             </div>
