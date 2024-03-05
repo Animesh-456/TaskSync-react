@@ -27,6 +27,12 @@ const TaskModal = ({ show, onHide, detail }) => {
                     </div>
 
                     <div className='lg-modal-child'>
+                        <div><h5>Date Created</h5></div>
+                        <div><p> {new Date(detail?.createdAt).toUTCString()}</p></div>
+
+                    </div>
+
+                    <div className='lg-modal-child'>
                         <div><h5>Task Description</h5></div>
                         <div><p> {detail?.description}</p></div>
 

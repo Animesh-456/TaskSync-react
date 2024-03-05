@@ -1,9 +1,12 @@
-import { React, useState } from 'react'
+import { React, useEffect, useState } from 'react'
 import Sidebar from './Sidebar'
 import Form from 'react-bootstrap/Form';
 import AssignedTasks from './AssignedTasks';
 import Pagination from 'react-bootstrap/Pagination';
 import UnassignedTasks from './UnassignedTasks';
+import { viewTasksUnassigned, viewTasksAssigned } from '../api/endpoints'
+import toast from 'react-hot-toast';
+import Spinner from 'react-bootstrap/Spinner';
 const Assign = () => {
 
     const v = [
@@ -65,6 +68,36 @@ const Assign = () => {
 
 
 
+
+    // Logic
+
+
+    const [unassignedTask, setunassignedTask] = useState([]);
+    const [assigned, setassigned] = useState([]);
+
+    useEffect(() => {
+        const userdata = localStorage.getItem('empdetails');
+        console.log("userdata", JSON.parse(userdata)?.id)
+
+        viewTasksUnassigned(JSON.parse(userdata)?.id).then((d) => {
+            setunassignedTask(d.data)
+        }).catch(err => {
+            toast.error(err)
+        })
+
+
+        viewTasksAssigned(JSON.parse(userdata)?.id).then((d) => {
+            setassigned(d.data)
+        }).catch(err => {
+            toast.error(err)
+        })
+
+    }, [])
+
+
+
+
+
     return (
         <div className='dashboard-main-container'>
             <Sidebar />
@@ -94,19 +127,29 @@ const Assign = () => {
 
                         {selectValue == "Unassigned" ? (
                             <div>
-                                {v.map((l, index) => {
+                                {unassignedTask?.length ? unassignedTask.map((l, index) => {
                                     return (
-                                        <UnassignedTasks prop={l?.a} />
+                                        <UnassignedTasks prop={l} />
                                     )
-                                })}
+                                }) : (
+                                    <div className='assign-child2'>
+                                        <div><Spinner animation="border" variant="success" /></div>
+                                        <div>Loading...</div>
+                                    </div>
+                                )}
                             </div>
                         ) : (
                             <div>
-                                {b.map((l, index) => {
+                                {assigned?.length ? assigned.map((l, index) => {
                                     return (
-                                        <AssignedTasks prop={l?.a} />
+                                        <AssignedTasks prop={l} />
                                     )
-                                })}
+                                }) : (
+                                    <div className='assign-child2'>
+                                        <div><Spinner animation="border" variant="success" /></div>
+                                        <div>  Loading...</div>
+                                    </div>
+                                )}
                             </div>
                         )}
                     </div>

@@ -25,12 +25,12 @@ const RecentTasks = (props) => {
                     {props?.prop?.status == 'complete' ? (
                         <>
                             <Card.Title><p style={{ color: 'rgb(76, 187, 23)', fontWeight: 'bold' }}>{props?.prop?.status}</p></Card.Title>
-                            <p>Date created : - {props?.prop?.createdAt}</p>
+                            <p>Date created : - {new Date(props?.prop?.createdAt).toUTCString()}</p>
                         </>
                     ) : (
                         <>
                             <Card.Title><p style={{ color: '#FFC300', fontWeight: 'bold' }}>{props?.prop?.status}</p></Card.Title>
-                            <p>Date created : - {props?.prop?.createdAt}</p>
+                            <p>Date created : - {new Date(props?.prop?.createdAt).toUTCString()}</p>
                         </>
                     )}
 

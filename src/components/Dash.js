@@ -8,13 +8,14 @@ import CompletedTasks from './CompletedTasks';
 import Card from 'react-bootstrap/Card';
 import RecentTasks from './RecentTasks';
 import { Button, Navbar } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, Router } from 'react-router-dom';
 import { useAtom } from 'jotai'
 import useratom from '../jotai/atom';
 
 import common from '../helpers/common'
 import { getUser, recentTasks, createdrecentTasks, updateemployee } from '../api/endpoints'
 import toast from 'react-hot-toast';
+import Spinner from 'react-bootstrap/Spinner';
 
 const Dash = () => {
 
@@ -128,7 +129,13 @@ const Dash = () => {
 
 
 
-
+    const handleviiewmore = () => {
+        if (empdetails?.account_type == 'Employee') {
+            <Link to='/task'></Link>
+        } else {
+            <Link to='/assign'></Link>
+        }
+    }
 
 
     console.log("Local str")
@@ -149,7 +156,7 @@ const Dash = () => {
 
                                 <a href='/addtask' className='plus-sign'>
 
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" className="bi bi-plus-circle-fill" viewBox="0 0 16 16">
                                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
                                     </svg>
                                     <div>
@@ -217,18 +224,37 @@ const Dash = () => {
 
 
                             <div>
-                                {createdrecent?.length && createdrecent.map((l, index) => {
+                                {createdrecent?.length ? createdrecent.map((l, index) => {
                                     return (
                                         <RecentTasks prop={l} />
                                     )
-                                })}
+                                }) : (
+                                    <>
+
+                                        <div className='assign-child2'>
+                                            <div><Spinner animation="border" variant="success" /></div>
+                                            <div>  Loading...</div>
+                                        </div>
+
+                                    </>
+                                )}
                             </div>
 
                         </div>
 
+                        <br></br>
+
                         <div className='assign-child'>
                             <div>
-                                <Button variant='outline-primary'>View More</Button>
+
+                                {empdetails?.account_type == 'Assigner' ? (
+                                    <Link style={{ textDecoration: 'none' }} to='/assign'>
+                                        <Button variant='outline-primary'>View More...</Button>
+                                    </Link>
+                                ) : (
+                                    <Link style={{ textDecoration: 'none' }} to='/task'><Button variant='outline-primary'>View More...</Button></Link>
+                                )}
+
                             </div>
                         </div>
                     </div>
