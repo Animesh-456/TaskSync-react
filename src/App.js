@@ -1,5 +1,5 @@
 // App.js
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { Route, Link, Routes } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { Provider } from 'jotai'
@@ -12,7 +12,13 @@ import Contact from './components/Contact';
 import Login from './components/Login';
 import Nav from './components/Nav';
 import Signup from './components/Signup';
-import Dashboard from './components/Dash';
+
+
+//import Dashboard from './components/Dash';
+
+
+
+
 import Assign from './components/Assign';
 import Tasks from './components/Tasks';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -21,6 +27,10 @@ import Profile from './components/Profile';
 import AddTask from './components/AddTask';
 import AssignTask from './components/AssignTask';
 import ProtectedRoutes from './ProtectedRoutes';
+
+import { Spinner } from 'react-bootstrap';
+
+const Dashboard = React.lazy(() => import("./components/Dash"));
 
 
 
@@ -52,7 +62,17 @@ function App() {
 
 
             <Route element={<ProtectedRoutes />}>
-              <Route path='/dashboard' element={<Dashboard />} />
+
+              <Route path='/dashboard' element={
+                <React.Suspense fallback={<div className='assign-child2'>
+                  <div><Spinner animation="border" variant="success" /></div>
+                  <div>  Loading...</div>
+                </div>}>
+                  <Dashboard />
+                </React.Suspense>
+              } />
+
+
               <Route path='/assign' element={<Assign />} />
               <Route path='/task' element={<Tasks />} />
               <Route path='/profile' element={<Profile />} />

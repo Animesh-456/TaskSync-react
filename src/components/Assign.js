@@ -7,45 +7,9 @@ import UnassignedTasks from './UnassignedTasks';
 import { viewTasksUnassigned, viewTasksAssigned } from '../api/endpoints'
 import toast from 'react-hot-toast';
 import Spinner from 'react-bootstrap/Spinner';
+import empty from '../assets/empty.svg'
 const Assign = () => {
 
-    const v = [
-        {
-            a: "Task One"
-        },
-        {
-            a: "Task Two"
-        },
-        {
-            a: "Task Three"
-        },
-        {
-            a: "Task Four"
-        },
-        {
-            a: "Task Five"
-        },
-    ]
-
-
-
-    const b = [
-        {
-            a: "Task Another"
-        },
-        {
-            a: "Task Two"
-        },
-        {
-            a: "Task Three"
-        },
-        {
-            a: "Task Four"
-        },
-        {
-            a: "Task Five"
-        },
-    ]
 
 
     let active = 2;
@@ -80,14 +44,24 @@ const Assign = () => {
         console.log("userdata", JSON.parse(userdata)?.id)
 
         viewTasksUnassigned(JSON.parse(userdata)?.id).then((d) => {
-            setunassignedTask(d.data)
+            if (d.data?.length) {
+                setunassignedTask(d.data)
+            } else {
+                setunassignedTask(null)
+            }
         }).catch(err => {
             toast.error(err)
         })
 
 
         viewTasksAssigned(JSON.parse(userdata)?.id).then((d) => {
-            setassigned(d.data)
+
+            if (d.data?.length) {
+                setassigned(d.data)
+            } else {
+                setassigned(null)
+            }
+
         }).catch(err => {
             toast.error(err)
         })
@@ -131,7 +105,7 @@ const Assign = () => {
                                     return (
                                         <UnassignedTasks prop={l} />
                                     )
-                                }) : (
+                                }) : unassignedTask != null && (
                                     <div className='assign-child2'>
                                         <div><Spinner animation="border" variant="success" /></div>
                                         <div>Loading...</div>
@@ -144,7 +118,7 @@ const Assign = () => {
                                     return (
                                         <AssignedTasks prop={l} />
                                     )
-                                }) : (
+                                }) : assigned != null && (
                                     <div className='assign-child2'>
                                         <div><Spinner animation="border" variant="success" /></div>
                                         <div>  Loading...</div>
@@ -153,6 +127,25 @@ const Assign = () => {
                             </div>
                         )}
                     </div>
+
+                    {selectValue == 'Unassigned' && unassignedTask == null && (
+                        <div className='empty-bin-container'>
+                            <img style={{ height: '300px', width: '300px' }} src={empty} />
+                            <h6>Oops ! No Unassigned Tasks Found</h6>
+                        </div>
+                    )}
+
+
+
+                    {selectValue == 'Assigned' && assigned == null && (
+                        <div className='empty-bin-container'>
+                            <img style={{ height: '300px', width: '300px' }} src={empty} />
+                            <h6>Oops ! No Assigned Tasks Found</h6>
+                        </div>
+                    )}
+
+
+
 
                     <div className='assign-child'>
                         <div>

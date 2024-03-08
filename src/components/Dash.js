@@ -16,46 +16,15 @@ import common from '../helpers/common'
 import { getUser, recentTasks, createdrecentTasks, updateemployee } from '../api/endpoints'
 import toast from 'react-hot-toast';
 import Spinner from 'react-bootstrap/Spinner';
+import empty from '../assets/empty.svg'
+
+
+import Placeholder from 'react-bootstrap/Placeholder';
+
 
 const Dash = () => {
 
-    const v = [
-        {
-            a: "Task One"
-        },
-        {
-            a: "Task Two"
-        },
-        {
-            a: "Task Three"
-        },
-        {
-            a: "Task Four"
-        },
-        {
-            a: "Task Five"
-        },
-    ]
-
-
-
-    const b = [
-        {
-            a: "Task Another"
-        },
-        {
-            a: "Task Two"
-        },
-        {
-            a: "Task Three"
-        },
-        {
-            a: "Task Four"
-        },
-        {
-            a: "Task Five"
-        },
-    ]
+   
 
 
     let active = 2;
@@ -104,24 +73,31 @@ const Dash = () => {
 
             console.log("data is ", d.status)
             setempdetails(d.data)
+            setIsLoading(false);
 
         }).catch(error => {
             toast.error(error)
+            setIsLoading(false);
         })
 
 
         recentTasks(token.id).then(d => {
-            if (d.status == 201) {
+            if (d.data?.length) {
                 setrecenttasks(d.data)
+            } else {
+                setrecenttasks(null)
             }
         }).catch(error => {
             toast.error(error)
         })
 
         createdrecentTasks(token.id).then(d => {
-            if (d.status == 201) {
+            if (d?.data?.length) {
                 setcreatedrecent(d.data)
+            } else {
+                setcreatedrecent(null)
             }
+
         }).catch(error => {
             toast.error(error)
         })
@@ -139,6 +115,9 @@ const Dash = () => {
 
 
     console.log("Local str")
+
+
+    const [isLoading, setIsLoading] = useState(true);
     return (
         <>
             <div className='dashboard-main-container'>
@@ -172,10 +151,18 @@ const Dash = () => {
                                 <Card style={{ width: '20rem', height: '7rem' }}>
                                     <Card.Body>
                                         <Card.Title>My name</Card.Title>
-                                        {/* <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle> */}
-                                        <Card.Text>
-                                            {empdetails?.fname + " " + empdetails?.lname}
-                                        </Card.Text>
+                                        
+                                        {isLoading ? (
+
+                                            <Placeholder as={Card.Title} animation="glow">
+                                                <Placeholder xs={6} />
+                                            </Placeholder>
+                                        ) : (
+                                            <Card.Text>
+                                                {empdetails?.fname + " " + empdetails?.lname}
+                                            </Card.Text>
+                                        )}
+
 
                                     </Card.Body>
                                 </Card>
@@ -185,10 +172,15 @@ const Dash = () => {
                                 <Card style={{ width: '20rem', height: '7rem' }}>
                                     <Card.Body>
                                         <Card.Title>My Email</Card.Title>
-                                        {/* <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle> */}
-                                        <Card.Text>
-                                            {empdetails?.email}
-                                        </Card.Text>
+                                        {isLoading ? (
+                                            <Placeholder as={Card.Title} animation="glow">
+                                                <Placeholder xs={6} />
+                                            </Placeholder>
+                                        ) : (
+                                            <Card.Text>
+                                                {empdetails?.email}
+                                            </Card.Text>
+                                        )}
 
                                     </Card.Body>
                                 </Card>
@@ -199,10 +191,15 @@ const Dash = () => {
                                 <Card style={{ width: '20rem', height: '7rem' }}>
                                     <Card.Body>
                                         <Card.Title>Type of Account</Card.Title>
-                                        {/* <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle> */}
-                                        <Card.Text>
-                                            {empdetails?.account_type}
-                                        </Card.Text>
+                                        {isLoading ? (
+                                            <Placeholder as={Card.Title} animation="glow">
+                                                <Placeholder xs={6} />
+                                            </Placeholder>
+                                        ) : (
+                                            <Card.Text>
+                                                {empdetails?.account_type}
+                                            </Card.Text>
+                                        )}
 
                                     </Card.Body>
                                 </Card>
@@ -223,36 +220,71 @@ const Dash = () => {
                         <div className='assign-child'>
 
 
-                            <div>
-                                {createdrecent?.length ? createdrecent.map((l, index) => {
-                                    return (
-                                        <RecentTasks prop={l} />
-                                    )
-                                }) : (
-                                    <>
 
+
+                            {empdetails?.account_type == 'Assigner' ? (
+                                <div>
+                                    {createdrecent?.length ? createdrecent.map((l, index) => {
+                                        return (
+                                            <RecentTasks prop={l} />
+                                        )
+                                    }) : createdrecent != null && (
                                         <div className='assign-child2'>
                                             <div><Spinner animation="border" variant="success" /></div>
                                             <div>  Loading...</div>
                                         </div>
-
-                                    </>
-                                )}
-                            </div>
+                                    )}
+                                </div>
+                            ) : (
+                                <div>
+                                    {recenttasks?.length ? recenttasks.map((l, index) => {
+                                        return (
+                                            <RecentTasks prop={l} />
+                                        )
+                                    }) : recenttasks != null && (
+                                        <div className='assign-child2'>
+                                            <div><Spinner animation="border" variant="success" /></div>
+                                            <div> Loading...</div>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
 
                         </div>
+
+                        {empdetails?.account_type == 'Assigner' && createdrecent == null && (
+
+                            <div className='empty-bin-container'>
+                                <img style={{ height: '300px', width: '300px' }} src={empty} />
+                                <h6>Oops ! No Tasks Found</h6>
+                            </div>
+                        )}
+
+
+                        {empdetails?.account_type == 'Employee' && recenttasks == null && (
+
+                            <div className='empty-bin-container'>
+                                <img style={{ height: '300px', width: '300px' }} src={empty} />
+                                <h6>Oops ! No Tasks Found</h6>
+                            </div>
+                        )}
+
+
+
 
                         <br></br>
 
                         <div className='assign-child'>
                             <div>
 
-                                {empdetails?.account_type == 'Assigner' ? (
+                                {empdetails?.account_type == 'Assigner' && createdrecent?.length ? (
                                     <Link style={{ textDecoration: 'none' }} to='/assign'>
                                         <Button variant='outline-primary'>View More...</Button>
                                     </Link>
-                                ) : (
+                                ) : createdrecent?.length ? (
                                     <Link style={{ textDecoration: 'none' }} to='/task'><Button variant='outline-primary'>View More...</Button></Link>
+                                ) : (
+                                    <></>
                                 )}
 
                             </div>
