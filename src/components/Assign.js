@@ -8,19 +8,32 @@ import { viewTasksUnassigned, viewTasksAssigned } from '../api/endpoints'
 import toast from 'react-hot-toast';
 import Spinner from 'react-bootstrap/Spinner';
 import empty from '../assets/empty.svg'
+
+import { useLocation, useNavigate } from 'react-router-dom';
+import { number } from 'joi';
 const Assign = () => {
 
+    const navigate = useNavigate();
 
 
-    let active = 2;
-    let items = [];
-    for (let number = 1; number <= 5; number++) {
-        items.push(
-            <Pagination.Item key={number} active={number === active}>
-                {number}
-            </Pagination.Item>,
-        );
-    }
+
+    // Get the current location object, including query parameters
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const pageNumber = parseInt(searchParams.get('page')) || 1;
+    console.log(pageNumber)
+
+
+
+
+    const goToPage = (pageNumber) => {
+        if (pageNumber >= 1) {
+            searchParams.set('page', pageNumber);
+            navigate({ search: searchParams.toString() });
+        }
+    };
+
+
 
 
     const [selectValue, setSelectValue] = useState('Unassigned');
@@ -38,14 +51,18 @@ const Assign = () => {
 
     const [unassignedTask, setunassignedTask] = useState([]);
     const [assigned, setassigned] = useState([]);
+    const [totalPages, settotalPages] = useState(0);
+
 
     useEffect(() => {
         const userdata = localStorage.getItem('empdetails');
         console.log("userdata", JSON.parse(userdata)?.id)
 
-        viewTasksUnassigned(JSON.parse(userdata)?.id).then((d) => {
-            if (d.data?.length) {
-                setunassignedTask(d.data)
+        viewTasksUnassigned(JSON.parse(userdata)?.id, pageNumber).then((d) => {
+            console.log("Unassigned tasks are: ----->", d?.data)
+            if (d.data?.tks[0]?.task?.length) {
+                setunassignedTask(d.data?.tks)
+                settotalPages(d?.data?.TotalPages)
             } else {
                 setunassignedTask(null)
             }
@@ -54,10 +71,11 @@ const Assign = () => {
         })
 
 
-        viewTasksAssigned(JSON.parse(userdata)?.id).then((d) => {
+        viewTasksAssigned(JSON.parse(userdata)?.id, pageNumber).then((d) => {
 
-            if (d.data?.length) {
-                setassigned(d.data)
+            if (d.data?.tks[0]?.task?.length) {
+                setassigned(d.data?.tks)
+                //settotalPages(d?.data?.TotalPages)
             } else {
                 setassigned(null)
             }
@@ -66,8 +84,16 @@ const Assign = () => {
             toast.error(err)
         })
 
-    }, [])
+    }, [pageNumber])
 
+
+    let active = pageNumber;
+    let items = [];
+    for (let number = 1; number <= totalPages; number++) {
+        items.push(
+            { number }
+        );
+    }
 
 
 
@@ -87,12 +113,17 @@ const Assign = () => {
                     <div className='assign-child'>
                         <div>
                             <select value={selectValue} onChange={handleSelectChange}>
+
                                 <option value="Unassigned">
                                     Unassigned
                                 </option>
+
+
                                 <option value="Assigned">
                                     Assigned
                                 </option>
+
+
                             </select>
                         </div>
                     </div>
@@ -101,7 +132,7 @@ const Assign = () => {
 
                         {selectValue == "Unassigned" ? (
                             <div>
-                                {unassignedTask?.length ? unassignedTask.map((l, index) => {
+                                {unassignedTask?.length ? unassignedTask[0]?.task.map((l, index) => {
                                     return (
                                         <UnassignedTasks prop={l} />
                                     )
@@ -114,7 +145,7 @@ const Assign = () => {
                             </div>
                         ) : (
                             <div>
-                                {assigned?.length ? assigned.map((l, index) => {
+                                {assigned?.length ? assigned[0]?.task.map((l, index) => {
                                     return (
                                         <AssignedTasks prop={l} />
                                     )
@@ -148,9 +179,13 @@ const Assign = () => {
 
 
                     <div className='assign-child'>
-                        <div>
-                            <Pagination>{items}</Pagination>
-                        </div>
+                        <Pagination>
+                            {items?.map((i) => {
+                                return (
+                                    <Pagination.Item style={{ cursor: 'pointer' }} active={pageNumber == i?.number ? true : false} onClick={() => goToPage(i?.number)}>{i?.number}</Pagination.Item>
+                                )
+                            })}
+                        </Pagination>
                     </div>
                 </div>
             </div>

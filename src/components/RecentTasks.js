@@ -3,6 +3,7 @@ import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import TaskModal from './TaskModal';
+import RecentTaskModal from './RecentTaskModal';
 
 const RecentTasks = (props) => {
     const handleClose = () => setLgShow(false);
@@ -14,12 +15,10 @@ const RecentTasks = (props) => {
 
     return (
         <>
-            <TaskModal show={lgShow} onHide={handleClose} detail={props?.prop} />
+            <RecentTaskModal show={lgShow} onHide={handleClose} detail={props?.prop} />
             <Card className='task-card'>
                 <Card.Header as="h5">{props?.prop?.title}</Card.Header>
                 <Card.Body>
-
-
 
 
                     {props?.prop?.status == 'complete' ? (

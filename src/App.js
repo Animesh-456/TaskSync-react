@@ -27,7 +27,7 @@ import Profile from './components/Profile';
 import AddTask from './components/AddTask';
 import AssignTask from './components/AssignTask';
 import ProtectedRoutes from './ProtectedRoutes';
-
+import Fallback from './components/Fallback';
 import { Spinner } from 'react-bootstrap';
 
 const Dashboard = React.lazy(() => import("./components/Dash"));
@@ -43,7 +43,7 @@ function App() {
     setloc(window.location.pathname)
   }, [window.location.pathname])
 
-  const excludeNavRoutes = ['/dashboard', '/login', '/signup', '/assign', '/task', '/profile', '/addtask', '/assigntask'];
+  const excludeNavRoutes = ['/dashboard', '/login', '/signup', '/assign', '/task', '/profile', '/addtask', '/assigntask', '/about'];
   const excludeSidebarRoutes = ['/login', '/signup', '/'];
   return (
     <>
@@ -64,10 +64,7 @@ function App() {
             <Route element={<ProtectedRoutes />}>
 
               <Route path='/dashboard' element={
-                <React.Suspense fallback={<div className='assign-child2'>
-                  <div><Spinner animation="border" variant="success" /></div>
-                  <div>  Loading...</div>
-                </div>}>
+                <React.Suspense fallback={<Fallback />}>
                   <Dashboard />
                 </React.Suspense>
               } />

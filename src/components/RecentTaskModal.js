@@ -1,10 +1,8 @@
 import { useState } from 'react';
 import React from 'react'
 import Modal from 'react-bootstrap/Modal';
-const TaskModal = ({ show, onHide, detail }) => {
 
-    console.log("task modal details are:-", detail)
-
+const RecentTaskModal = ({ show, onHide, detail }) => {
     return (
 
         <Modal
@@ -42,14 +40,14 @@ const TaskModal = ({ show, onHide, detail }) => {
 
                     <div className='lg-modal-child'>
                         <div><h5>Assigned By</h5></div>
-                        <div><p>{detail?.assignedByDetails[0]?.fname}</p></div>
+                        <div><p>{detail?.assignedBy?.fname}</p></div>
                     </div>
 
 
-                    {/* <div className='lg-modal-child'>
+                    <div className='lg-modal-child'>
                         <div><h5>Assigned To</h5></div>
-                        <div><p>{detail?.assignedToDetails[0]?.fname || 'N/A'}</p></div>
-                    </div> */}
+                        <div><p>{detail?.assignedTo?.fname || 'N/A'}</p></div>
+                    </div>
 
 
                     <div className='lg-modal-child'>
@@ -69,4 +67,5 @@ const TaskModal = ({ show, onHide, detail }) => {
     )
 }
 
-export default TaskModal
+
+export default RecentTaskModal

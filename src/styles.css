@@ -666,10 +666,49 @@ button {
 }
 
 
-.empty-bin-container{
+.empty-bin-container {
     display: flex;
     flex-direction: column;
     gap: 1rem;
     align-items: center;
     justify-content: center;
+}
+
+.main-fallback-loader {
+    margin-top: 20rem;
+    display: flex;
+    flex-direction: column;
+    /* gap: 0.2rem; */
+    align-items: center;
+    justify-content: center;
+}
+
+
+.fallback-loader {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+    /* margin-top: 25rem; */
+}
+
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+
+.blinking-div {
+    animation: blink 0.9s infinite;
 }

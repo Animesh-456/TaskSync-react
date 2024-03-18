@@ -28,11 +28,11 @@ export const viewTasks = async (userId, status) => {
 };
 
 
-export const viewTasksUnassigned = async (userId) => {
+export const viewTasksUnassigned = async (userId, pagenum) => {
     const userdata = localStorage.getItem('empdetails');
     const token = JSON.parse(userdata);
     axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token.token}`;
-    let resp = await axiosInstance.get(`/task/viewtasks-unassigned`, { params: { id: userId } });
+    let resp = await axiosInstance.get(`/task/viewtasks-unassigned?page=${pagenum}`, { params: { id: userId } });
     if (resp?.status == 500) {
         localStorage.removeItem("empdetails")
         window.location.href = "/login"
@@ -42,11 +42,11 @@ export const viewTasksUnassigned = async (userId) => {
 
 
 
-export const viewTasksAssigned = async (userId) => {
+export const viewTasksAssigned = async (userId, pagenum) => {
     const userdata = localStorage.getItem('empdetails');
     const token = JSON.parse(userdata);
     axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token.token}`;
-    let resp = await axiosInstance.get(`/task//viewtasks-assigned`, { params: { id: userId } });
+    let resp = await axiosInstance.get(`/task/viewtasks-assigned?page=${pagenum}`, { params: { id: userId } });
     if (resp?.status == 500) {
         localStorage.removeItem("empdetails")
         window.location.href = "/login"

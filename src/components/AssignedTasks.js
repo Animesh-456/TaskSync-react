@@ -36,7 +36,7 @@ const AssignedTasks = (props) => {
 
                     <div style={{ display: 'flex', flexDirection: 'row', gap: '2rem' }}>
                         <Button variant="secondary" onClick={handleShow}>Details</Button>
-                        {/* <Button variant="success">Assign Task</Button> */}
+
                     </div>
                 </Card.Body>
             </Card>

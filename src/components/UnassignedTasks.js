@@ -11,16 +11,27 @@ const UnassignedTasks = (props) => {
 
 
     const [lgShow, setLgShow] = useState(false);
+
+    console.log("Unassigned task are :- ", props?.prop)
     return (
         <>
-            <TaskModal show={lgShow} onHide={handleClose} detail = {props?.prop} />
+            <TaskModal show={lgShow} onHide={handleClose} detail={props?.prop} />
             <Card className='task-card'>
-                <Card.Header as="h5">{props?.prop}</Card.Header>
+                <Card.Header as="h5">{props?.prop?.title}</Card.Header>
                 <Card.Body>
-                    <Card.Title>Special title treatment</Card.Title>
+                    {props?.prop?.status == 'complete' ? (
+                        <>
+                            <Card.Title><p style={{ color: 'rgb(76, 187, 23)', fontWeight: 'bold' }}>{props?.prop?.status}</p></Card.Title>
+                            <p>Date created : - {new Date(props?.prop?.createdAt).toUTCString()}</p>
+                        </>
+                    ) : (
+                        <>
+                            <Card.Title><p style={{ color: '#FFC300', fontWeight: 'bold' }}>{props?.prop?.status}</p></Card.Title>
+                            <p>Date created : - {new Date(props?.prop?.createdAt).toUTCString()}</p>
+                        </>
+                    )}
                     <Card.Text>
-                        With supporting text below as a natural lead-in to additional content.
-                        With supporting text below as a natural lead-in to additional content.With supporting text below as a natural lead-in to additional content.With supporting text below as a natural lead-in to additional content.With supporting text below as a natural lead-in to additional content.With supporting text below as a natural lead-in to additional content.With supporting text below as a natural lead-in to additional content.With supporting text below as a natural lead-in to additional content.With supporting text below as a natural lead-in to additional content.With supporting text below as a natural lead-in to additional content.With supporting text below as a natural lead-in to additional content.
+                        {props?.prop?.description}
                     </Card.Text>
 
                     <div style={{ display: 'flex', flexDirection: 'row', gap: '2rem' }}>

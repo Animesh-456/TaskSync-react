@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from 'react-bootstrap';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import { useNavigate } from 'react-router-dom';
-
+import { addtask } from '../api/endpoints'
+import toast from 'react-hot-toast';
 const AddTask = () => {
 
     const navigate = useNavigate();
@@ -12,6 +13,38 @@ const AddTask = () => {
         // Redirect to another page
         navigate('/dashboard');
     }
+
+
+    const user = localStorage.getItem('empdetails');
+    const assignedBy = JSON.parse(user)?.id;
+
+
+    const [title, settitle] = useState(null);
+    const [description, setdescription] = useState(null);
+
+
+
+    const wrapper = {
+        title: title,
+        description: description,
+        assignedBy: assignedBy
+    }
+
+
+    console.log("title", wrapper)
+
+
+    const handleconfirm = () => {
+        addtask(wrapper).then((d) => {
+            toast.success("Task Added !")
+            navigate('/assign')
+        }).catch(err => {
+            toast.error("Error Occured !")
+        })
+    }
+
+
+
     return (
         <div className='task-main-container'>
             <div className='task-child-container1'>
@@ -50,16 +83,16 @@ const AddTask = () => {
 
                 <Form.Group controlId="exampleForm.ControlInput1">
                     <Form.Label>Task Title</Form.Label>
-                    <Form.Control type="text" />
+                    <Form.Control value={title} onChange={(e) => settitle(e.target.value)} type="text" />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                     <Form.Label>Task Description</Form.Label>
-                    <Form.Control as="textarea" rows={5} />
+                    <Form.Control value={description} onChange={(e) => setdescription(e.target.value)} as="textarea" rows={5} />
                 </Form.Group>
 
                 <div className='add-tsk-btn-container'>
-                    <Button variant='outline-primary'>Add Task</Button>
+                    <Button variant='outline-primary' onClick={handleconfirm}>Add Task</Button>
                     <Button onClick={handlecancel} variant='secondary'>Cancel</Button>
                 </div>
             </div>
