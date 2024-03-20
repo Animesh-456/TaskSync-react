@@ -3,6 +3,7 @@ import common from '../helpers/common'
 import Link from "react-router-dom";
 import add from "../controller/employee/reg"
 import { regschema } from '../validation/emp/empschema';
+import toast from 'react-hot-toast';
 const Signup = () => {
 
 
@@ -32,23 +33,23 @@ const Signup = () => {
 
         const { error } = regschema.validate(user)
         if (error) {
-            alert(`${error.message}`)
-            //toast.warning(error.message)
+            //alert(`${error.message}`)
+            toast.error(error.message)
             return
         }
         add(user).then(response => {
             if (response == 201) {
-                alert("Registered !")
-                //toast.success("Registered Successfully !")
-                window.location.href = '/login'
+                
+                toast.success("Registered Successfully !")
+                //window.location.href = '/login'
             } else {
-                alert('Email/Username already exists!')
+                toast.error('Email/Username already exists!')
                 //toast.error("Email already exists!")
                 return
             }
 
         }).catch(error => {
-            //toast.error(error)
+            toast.error(error)
         })
     }
 

@@ -1,73 +1,84 @@
-import { React, useState } from 'react'
+import { React, useEffect, useState} from 'react'
+import { useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar'
 import Form from 'react-bootstrap/Form';
-import Pagination from 'react-bootstrap/Pagination';
-import PendingTaks from './PendingTaks';
-import CompletedTasks from './CompletedTasks';
-
-import Card from 'react-bootstrap/Card';
-import RecentTasks from './RecentTasks';
 import { Button } from 'react-bootstrap';
+import { getUser } from '../api/endpoints';
+import toast from 'react-hot-toast';
+import { updateemployee } from '../api/endpoints';
 
 
 const Profile = () => {
 
-    const v = [
-        {
-            a: "Task One"
-        },
-        {
-            a: "Task Two"
-        },
-        {
-            a: "Task Three"
-        },
-        {
-            a: "Task Four"
-        },
-        {
-            a: "Task Five"
-        },
-    ]
+    const navigate = useNavigate();
+
+    const [empdetails, setempdetails] = useState({
+        fname: "",
+        lname: "",
+        email: "",
+        username: "",
+        description: "",
+        account_type: ""
+    });
+
+    useEffect(() => {
 
 
 
-    const b = [
-        {
-            a: "Task Another"
-        },
-        {
-            a: "Task Two"
-        },
-        {
-            a: "Task Three"
-        },
-        {
-            a: "Task Four"
-        },
-        {
-            a: "Task Five"
-        },
-    ]
+        const userdata = localStorage.getItem('empdetails');
+        const token = JSON.parse(userdata);
 
 
-    let active = 2;
-    let items = [];
-    for (let number = 1; number <= 5; number++) {
-        items.push(
-            <Pagination.Item key={number} active={number === active}>
-                {number}
-            </Pagination.Item>,
-        );
-    }
+        getUser(token).then(d => {
 
+            console.log("data is ", d.status)
+            setempdetails(d.data)
+            //setIsLoading(false);
 
-    const [selectValue, setSelectValue] = useState('Pending');
+        }).catch(error => {
+            toast.error(error)
+            //setIsLoading(false);
+        })
+    }, [])
 
-    // Event handler to update the select value
-    const handleSelectChange = (event) => {
-        setSelectValue(event.target.value);
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setempdetails(prevUserData => ({
+            ...prevUserData,
+            [name]: value
+        }));
     };
+
+
+    console.log("empdetails", empdetails)
+
+
+
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        try {
+
+            await updateemployee(empdetails)
+
+            await toast.success("Profile Updated!");
+
+            navigate('/dashboard');
+
+
+
+            // Optionally, redirect or show a success message
+        } catch (error) {
+            toast.error(error.message);
+            // Optionally, show an error message to the user
+        }
+    };
+
+
+
+
+
     return (
         <div className='dashboard-main-container'>
             <Sidebar />
@@ -84,14 +95,14 @@ const Profile = () => {
                         <div>
                             <Form.Group controlId="exampleForm.ControlInput1">
                                 <Form.Label>First Name</Form.Label>
-                                <Form.Control type="text" />
+                                <Form.Control type="text" name='fname' value={empdetails?.fname} onChange={handleChange} />
                             </Form.Group>
                         </div>
 
                         <div>
                             <Form.Group controlId="exampleForm.ControlInput1">
                                 <Form.Label>Last Name</Form.Label>
-                                <Form.Control type="text" />
+                                <Form.Control type="text" name='lname' value={empdetails?.lname} onChange={handleChange} />
                             </Form.Group>
                         </div>
 
@@ -101,17 +112,17 @@ const Profile = () => {
                     <Form>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                             <Form.Label>Email address</Form.Label>
-                            <Form.Control disabled readOnly value={'anim29006@gmail.com'} type="email" placeholder="name@example.com" />
+                            <Form.Control disabled readOnly value={empdetails?.email} type="email" placeholder="name@example.com" />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                             <Form.Label>Type of account</Form.Label>
                             <Form.Select disabled>
-                                <option>Assigner</option>
+                                <option>{empdetails?.account_type}</option>
                             </Form.Select>
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                             <Form.Label>Description</Form.Label>
-                            <Form.Control as="textarea" rows={3} />
+                            <Form.Control as="textarea" name='description' rows={3} value={empdetails?.description} onChange={handleChange} />
                         </Form.Group>
 
 
@@ -123,7 +134,7 @@ const Profile = () => {
 
                     <div className='assign-child'>
                         <div>
-                            <Button variant='outline-primary'>Save</Button>
+                            <Button variant='outline-primary' onClick={handleSubmit}>Save</Button>
                         </div>
                     </div>
                 </div>
