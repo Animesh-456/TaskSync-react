@@ -1,5 +1,5 @@
 // App.js
-import React, { useEffect, useState, Suspense } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Link, Routes } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { Provider } from 'jotai'
@@ -28,6 +28,8 @@ import AddTask from './components/AddTask';
 import AssignTask from './components/AssignTask';
 import ProtectedRoutes from './ProtectedRoutes';
 import Fallback from './components/Fallback';
+// import Detail from './components/taskdetail/Detail';
+import TaskDetails from './components/TaskDetails';
 import { Spinner } from 'react-bootstrap';
 
 const Dashboard = React.lazy(() => import("./components/Dash"));
@@ -50,7 +52,8 @@ function App() {
       <div className="app">
         <Provider>
           <Toaster />
-          {excludeNavRoutes.includes(loc) ? null : <Nav />}
+          {/* {excludeNavRoutes.includes(loc) || window.location.pathname == `/assign/*` ? null : <Nav />} */}
+          {/* {window.location.pathname === '/assign/:taskId' && null} */}
           {/* {excludeSidebarRoutes.includes(window.location.pathname) ? null : <Sidebar />} */}
           <Routes>
             <Route path="/" element={<Home />} />
@@ -61,6 +64,9 @@ function App() {
             <Route path="/signup" element={<Signup />} />
 
 
+
+
+
             <Route element={<ProtectedRoutes />}>
 
               <Route path='/dashboard' element={
@@ -69,12 +75,57 @@ function App() {
                 </React.Suspense>
               } />
 
+              <Route path='/assign' element={
+                <React.Suspense fallback={<Fallback />}>
+                  <Assign />
+                </React.Suspense>
+              } />
 
-              <Route path='/assign' element={<Assign />} />
-              <Route path='/task' element={<Tasks />} />
-              <Route path='/profile' element={<Profile />} />
-              <Route path='/addtask' element={<AddTask />} />
-              <Route path='/assigntask' element={<AssignTask />} />
+
+              <Route path='/assign/:taskId' element={
+                <React.Suspense fallback={<Fallback />}>
+                  <TaskDetails />
+                </React.Suspense>
+              } />
+
+              <Route path='/task' element={
+                <React.Suspense fallback={<Fallback />}>
+                  <Tasks />
+                </React.Suspense>
+              } />
+
+              <Route path='/profile' element={
+                <React.Suspense fallback={<Fallback />}>
+                  <Profile />
+                </React.Suspense>
+              } />
+
+
+
+              <Route path='/addtask' element={
+                <React.Suspense fallback={< Fallback />}>
+                  <AddTask />
+                </React.Suspense>
+              } />
+
+
+              <Route path='/assigntask' element={
+                <React.Suspense fallback={<Fallback />}>
+                  <AssignTask />
+                </React.Suspense>
+              } />
+
+
+
+
+
+              {/* <Route path='/assign' element={<Assign />} />
+              <Route path='/assign/:taskId' element={<TaskDetails />} /> */}
+              {/* <Route path='/task' element={<Tasks />} /> */}
+              {/* <Route path='/profile' element={<Profile />} /> */}
+              {/* <Route path='/addtask' element={<AddTask />} /> */}
+              {/* <Route path='/assigntask' element={<AssignTask />} /> */}
+
             </Route>
             {/* <Route path="/dashboard" element={<Dashboard />} /> */}
 

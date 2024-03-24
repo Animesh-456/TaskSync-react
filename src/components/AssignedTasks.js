@@ -3,7 +3,7 @@ import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import TaskModal from './TaskModal';
-
+import Badge from 'react-bootstrap/Badge';
 const AssignedTasks = (props) => {
 
     const handleClose = () => setLgShow(false);
@@ -21,12 +21,16 @@ const AssignedTasks = (props) => {
                 <Card.Body>
                     {props?.prop?.status == 'complete' ? (
                         <>
-                            <Card.Title><p style={{ color: 'rgb(76, 187, 23)', fontWeight: 'bold' }}>{props?.prop?.status}</p></Card.Title>
+                            <Card.Title><Badge style={{ fontSize: 'small' }} pill bg="success">
+                                complete
+                            </Badge></Card.Title>
                             <p>Date created : - {new Date(props?.prop?.createdAt).toUTCString()}</p>
                         </>
                     ) : (
                         <>
-                            <Card.Title><p style={{ color: '#FFC300', fontWeight: 'bold' }}>{props?.prop?.status}</p></Card.Title>
+                            <Card.Title><Badge style={{ fontSize: 'small' }} pill bg="warning" text="dark">
+                                pending
+                            </Badge></Card.Title>
                             <p>Date created : - {new Date(props?.prop?.createdAt).toUTCString()}</p>
                         </>
                     )}

@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import TaskModal from './TaskModal';
 import RecentTaskModal from './RecentTaskModal';
-
+import Badge from 'react-bootstrap/Badge';
 const RecentTasks = (props) => {
     const handleClose = () => setLgShow(false);
     const handleShow = () => setLgShow(true);
@@ -23,12 +23,16 @@ const RecentTasks = (props) => {
 
                     {props?.prop?.status == 'complete' ? (
                         <>
-                            <Card.Title><p style={{ color: 'rgb(76, 187, 23)', fontWeight: 'bold' }}>{props?.prop?.status}</p></Card.Title>
+                            <Card.Title> <Badge style={{ fontSize: 'small' }} pill bg="success">
+                                complete
+                            </Badge></Card.Title>
                             <p>Date created : - {new Date(props?.prop?.createdAt).toUTCString()}</p>
                         </>
                     ) : (
                         <>
-                            <Card.Title><p style={{ color: '#FFC300', fontWeight: 'bold' }}>{props?.prop?.status}</p></Card.Title>
+                            <Card.Title><Badge style={{ fontSize: 'small' }} pill bg="warning" text="dark">
+                                Pending
+                            </Badge></Card.Title>
                             <p>Date created : - {new Date(props?.prop?.createdAt).toUTCString()}</p>
                         </>
                     )}

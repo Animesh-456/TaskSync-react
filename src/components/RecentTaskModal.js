@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import React from 'react'
 import Modal from 'react-bootstrap/Modal';
+import Badge from 'react-bootstrap/Badge';
 
 const RecentTaskModal = ({ show, onHide, detail }) => {
     return (
@@ -53,9 +54,13 @@ const RecentTaskModal = ({ show, onHide, detail }) => {
                     <div className='lg-modal-child'>
                         <div><h5>Task Status</h5></div>
                         {detail?.status == 'complete' ? (
-                            <div><p style={{ color: 'rgb(76, 187, 23)', fontWeight: 'bold' }}>{detail?.status}</p></div>
+                            <div><Badge style={{ fontSize: 'small' }} pill bg="success">
+                                complete
+                            </Badge></div>
                         ) : (
-                            <div><p style={{ color: '#FFC300', fontWeight: 'bold' }}>{detail?.status}</p></div>
+                            <div><Badge style={{ fontSize: 'small' }} pill bg="warning" text='dark'>
+                                pending
+                            </Badge></div>
                         )}
 
                     </div>

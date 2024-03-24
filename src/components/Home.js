@@ -5,12 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import Nav from './Nav';
 function Home() {
   const navigate = useNavigate();
- 
+
   const handleSignup = () => {
     navigate('/signup');
   }
   return (
     <>
+      <Nav />
       <div className="container">
 
         <div className="box1">

@@ -485,6 +485,7 @@ button {
     width: 100%;
     overflow: auto;
     gap: 2rem;
+    overflow: auto;
 }
 
 .asgn {
@@ -711,4 +712,42 @@ button {
 
 .blinking-div {
     animation: blink 0.9s infinite;
+}
+
+
+
+/* Assign task Page */
+
+
+.task-detail-conatiner {
+    display: flex;
+    flex-direction: row;
+    /* align-items: center;
+    justify-content: center; */
+}
+
+.task-detail-child {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    gap: 2rem;
+    
+}
+
+
+.status-button {
+    height: 20px;
+    width: 80px;
+    border-radius: 10px;
+    background-color: aliceblue;
+    color: #5a5656;
+    border: 3px solid rgb(228, 192, 8);
+}
+
+
+
+.search-background{
+    /* background-color: #f30e0e;
+    height: 100px;
+    width: 200px; */
 }

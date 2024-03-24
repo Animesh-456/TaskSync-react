@@ -3,6 +3,8 @@ import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import TaskModal from './TaskModal';
+import { Link } from 'react-router-dom';
+import { Badge } from 'react-bootstrap';
 const UnassignedTasks = (props) => {
 
 
@@ -21,12 +23,16 @@ const UnassignedTasks = (props) => {
                 <Card.Body>
                     {props?.prop?.status == 'complete' ? (
                         <>
-                            <Card.Title><p style={{ color: 'rgb(76, 187, 23)', fontWeight: 'bold' }}>{props?.prop?.status}</p></Card.Title>
+                            <Card.Title><Badge style={{ fontSize: 'small' }} pill bg="success">
+                                complete
+                            </Badge></Card.Title>
                             <p>Date created : - {new Date(props?.prop?.createdAt).toUTCString()}</p>
                         </>
                     ) : (
                         <>
-                            <Card.Title><p style={{ color: '#FFC300', fontWeight: 'bold' }}>{props?.prop?.status}</p></Card.Title>
+                            <Card.Title><Badge style={{fontSize: 'small'}} pill bg="warning" text="dark">
+                                pending
+                            </Badge></Card.Title>
                             <p>Date created : - {new Date(props?.prop?.createdAt).toUTCString()}</p>
                         </>
                     )}
@@ -36,7 +42,10 @@ const UnassignedTasks = (props) => {
 
                     <div style={{ display: 'flex', flexDirection: 'row', gap: '2rem' }}>
                         <Button variant="secondary" onClick={handleShow}>Details</Button>
-                        <Button variant="success">Assign Task</Button>
+                        {/* <Button variant="success">Assign Task</Button> */}
+                        <Link to={`/assign/${props?.prop?._id}`}>
+                            <Button variant="success">Assign Task</Button>
+                        </Link>
                     </div>
                 </Card.Body>
             </Card>
