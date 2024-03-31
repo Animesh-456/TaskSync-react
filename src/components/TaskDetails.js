@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { assignTask, viewtaskID } from '../api/endpoints';
+
+import apiController from '../api/endpoints';
+
 import Sidebar from './Sidebar';
 import toast from 'react-hot-toast';
 import { Button, Spinner } from 'react-bootstrap';
@@ -14,6 +17,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import { searchusers } from '../api/endpoints';
 
 import { useNavigate } from 'react-router-dom';
+import Hamburger from './Hamburger';
 
 const TaskDetails = () => {
 
@@ -31,21 +35,42 @@ const TaskDetails = () => {
     const [userlist, setuserlist] = useState([])
 
     useEffect(() => {
-        viewtaskID(taskId).then((d) => {
-            settaskdetail(d?.data[0])
-        }).catch(err => {
-            toast.error("Error Occured!")
-        })
+
+
+
+
+        const fetchData = async () => {
+            try {
+                const result = await apiController.viewtaskID(taskId)
+
+                settaskdetail(result?.data?.data[0])
+
+            } catch (error) {
+                toast.error(error)
+            }
+        };
+
+        fetchData();
+
     }, [taskId])
 
 
 
     useEffect(() => {
-        searchusers(textsearch).then((d) => {
-            setuserlist(d?.data)
-        }).catch(err => {
-            toast.error("Error Occured !")
-        })
+
+        const fetchData = async () => {
+            try {
+                const result = await apiController. searchusers(textsearch)
+
+                setuserlist(result?.data?.data)
+
+            } catch (error) {
+                toast.error(error)
+            }
+        };
+
+        fetchData();
+
     }, [textsearch])
 
 
@@ -83,6 +108,7 @@ const TaskDetails = () => {
         <div className='dashboard-main-container'>
             <Sidebar />
             <div className='assign-task-container'>
+                <Hamburger />
 
                 <div className='asgn'>
                     <div className='task-detail-child'>

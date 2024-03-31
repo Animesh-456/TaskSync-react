@@ -43,14 +43,19 @@ const TaskModal = ({ show, onHide, detail }) => {
 
                     <div className='lg-modal-child'>
                         <div><h5>Assigned By</h5></div>
-                        <div><p>{detail?.assignedByDetails[0]?.fname}</p></div>
+                        <div><p>{detail?.assignedByDetails[0]?.username || "N/A"}</p></div>
                     </div>
 
 
-                    {/* <div className='lg-modal-child'>
-                        <div><h5>Assigned To</h5></div>
-                        <div><p>{detail?.assignedToDetails[0]?.fname || 'N/A'}</p></div>
-                    </div> */}
+                    {detail?.assignedToDetails && (
+
+                        <div className='lg-modal-child'>
+                            <div><h5>Assigned To</h5></div>
+                            <div><p>{detail?.assignedToDetails[0]?.fname || 'N/A'}</p></div>
+                        </div>
+                    )}
+
+
 
 
                     <div className='lg-modal-child'>

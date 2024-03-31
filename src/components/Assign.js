@@ -5,11 +5,12 @@ import AssignedTasks from './AssignedTasks';
 import Pagination from 'react-bootstrap/Pagination';
 import UnassignedTasks from './UnassignedTasks';
 import { viewTasksUnassigned, viewTasksAssigned } from '../api/endpoints'
+import apiController from '../api/endpoints';
 import toast from 'react-hot-toast';
 import Spinner from 'react-bootstrap/Spinner';
 import empty from '../assets/empty.svg'
 import { useLocation, useNavigate } from 'react-router-dom';
-
+import Hamburger from './Hamburger';
 
 
 
@@ -44,6 +45,7 @@ const Assign = () => {
     // Event handler to update the select value
     const handleSelectChange = (event) => {
         setSelectValue(event.target.value);
+        goToPage(1)
     };
 
 
@@ -61,31 +63,46 @@ const Assign = () => {
         const userdata = localStorage.getItem('empdetails');
         console.log("userdata", JSON.parse(userdata)?.id)
 
-        viewTasksUnassigned(JSON.parse(userdata)?.id, pageNumber).then((d) => {
-            console.log("Unassigned tasks are: ----->", d?.data)
-            if (d.data?.tks[0]?.task?.length) {
-                setunassignedTask(d.data?.tks)
-                settotalPages(d?.data?.TotalPages)
-            } else {
-                setunassignedTask(null)
+
+        const fetchData = async () => {
+            try {
+                const result = await apiController.viewTasksUnassigned(JSON.parse(userdata)?.id, pageNumber);
+
+                if (result.data?.tks[0]?.task?.length) {
+                    setunassignedTask(result.data?.tks)
+                    settotalPages(result?.data?.TotalPages)
+                } else {
+                    setunassignedTask(null)
+                }
+
+            } catch (error) {
+                toast.error(error)
             }
-        }).catch(err => {
-            toast.error(err)
-        })
+        };
+
+        fetchData();
 
 
-        viewTasksAssigned(JSON.parse(userdata)?.id, pageNumber).then((d) => {
+        const fetchData2 = async () => {
+            try {
+                const result = await apiController.viewTasksAssigned(JSON.parse(userdata)?.id, pageNumber);
 
-            if (d.data?.tks[0]?.task?.length) {
-                setassigned(d.data?.tks)
-                //settotalPages(d?.data?.TotalPages)
-            } else {
-                setassigned(null)
+                if (result.data?.tks[0]?.task?.length) {
+                    setassigned(result.data?.tks)
+                    //settotalPages(d?.data?.TotalPages)
+                } else {
+                    setassigned(null)
+                }
+
+            } catch (error) {
+                toast.error(error)
             }
+        };
 
-        }).catch(err => {
-            toast.error(err)
-        })
+        fetchData2();
+
+
+     
 
     }, [pageNumber])
 
@@ -98,13 +115,11 @@ const Assign = () => {
         );
     }
 
-
-
-
     return (
         <div className='dashboard-main-container'>
             <Sidebar />
             <div className='assign-task-container'>
+                <Hamburger />
                 <div className='asgn'>
                     <div className='assign-child'>
                         <div>

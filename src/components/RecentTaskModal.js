@@ -41,13 +41,13 @@ const RecentTaskModal = ({ show, onHide, detail }) => {
 
                     <div className='lg-modal-child'>
                         <div><h5>Assigned By</h5></div>
-                        <div><p>{detail?.assignedBy?.fname}</p></div>
+                        <div><p>{detail?.assignedBy?.username}</p></div>
                     </div>
 
 
                     <div className='lg-modal-child'>
                         <div><h5>Assigned To</h5></div>
-                        <div><p>{detail?.assignedTo?.fname || 'N/A'}</p></div>
+                        <div><p>{detail?.assignedTo?.username || 'N/A'}</p></div>
                     </div>
 
 

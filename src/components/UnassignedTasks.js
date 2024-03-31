@@ -5,6 +5,8 @@ import Card from 'react-bootstrap/Card';
 import TaskModal from './TaskModal';
 import { Link } from 'react-router-dom';
 import { Badge } from 'react-bootstrap';
+import toast from 'react-hot-toast';
+import EditTaskModal from './EditTaskModal';
 const UnassignedTasks = (props) => {
 
 
@@ -13,11 +15,22 @@ const UnassignedTasks = (props) => {
 
 
     const [lgShow, setLgShow] = useState(false);
+    const [editModalShow, setEditModalShow] = useState(false)
 
     console.log("Unassigned task are :- ", props?.prop)
+
+    const handleEdit = () => {
+        setEditModalShow(true)
+    }
+
+
+    const handleEditModalClose = () => {
+        setEditModalShow(false)
+    }
     return (
         <>
             <TaskModal show={lgShow} onHide={handleClose} detail={props?.prop} />
+            <EditTaskModal show={editModalShow} onHide={handleEditModalClose} detail={props?.prop} />
             <Card className='task-card'>
                 <Card.Header as="h5">{props?.prop?.title}</Card.Header>
                 <Card.Body>
@@ -30,7 +43,7 @@ const UnassignedTasks = (props) => {
                         </>
                     ) : (
                         <>
-                            <Card.Title><Badge style={{fontSize: 'small'}} pill bg="warning" text="dark">
+                            <Card.Title><Badge style={{ fontSize: 'small' }} pill bg="warning" text="dark">
                                 pending
                             </Badge></Card.Title>
                             <p>Date created : - {new Date(props?.prop?.createdAt).toUTCString()}</p>
@@ -46,6 +59,9 @@ const UnassignedTasks = (props) => {
                         <Link to={`/assign/${props?.prop?._id}`}>
                             <Button variant="success">Assign Task</Button>
                         </Link>
+
+
+                        <Button variant="outline-secondary" onClick={handleEdit}>Edit Task</Button>
                     </div>
                 </Card.Body>
             </Card>

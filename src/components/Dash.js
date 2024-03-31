@@ -14,19 +14,24 @@ import useratom from '../jotai/atom';
 
 import common from '../helpers/common'
 import { getUser, recentTasks, createdrecentTasks, updateemployee } from '../api/endpoints'
+
+import apiController from '../api/endpoints';
 import toast from 'react-hot-toast';
 import Spinner from 'react-bootstrap/Spinner';
 import empty from '../assets/empty.svg'
+import Hamburger from './Hamburger';
+import Header from './Header';
 
 
 
 
 import Placeholder from 'react-bootstrap/Placeholder';
+import Nav from './Nav';
 
 
 const Dash = () => {
 
-   
+
 
 
     let active = 2;
@@ -71,49 +76,59 @@ const Dash = () => {
         const token = JSON.parse(userdata);
 
 
-        getUser(token).then(d => {
-
-            console.log("data is ", d.status)
-            setempdetails(d.data)
-            setIsLoading(false);
-
-        }).catch(error => {
-            toast.error(error)
-            setIsLoading(false);
-        })
 
 
-        recentTasks(token.id).then(d => {
-            if (d.data?.length) {
-                setrecenttasks(d.data)
-            } else {
-                setrecenttasks(null)
+
+        const fetchData = async () => {
+            try {
+                const data = await apiController.getUser(token);
+                setempdetails(data.data.data)
+                setIsLoading(false);
+            } catch (error) {
+                toast.error(error)
+                setIsLoading(false); // Set error state if request fails
             }
-        }).catch(error => {
-            toast.error(error)
-        })
+        };
 
-        createdrecentTasks(token.id).then(d => {
-            if (d?.data?.length) {
-                setcreatedrecent(d.data)
-            } else {
-                setcreatedrecent(null)
+        fetchData();
+
+
+
+        const fetchData2 = async () => {
+            try {
+                const result = await apiController.recentTasks(token.id);
+                if (result.data.data?.length) {
+                    setrecenttasks(result.data.data)
+                } else {
+                    setrecenttasks(null)
+                }
+            } catch (error) {
+                toast.error(error)
             }
+        };
 
-        }).catch(error => {
-            toast.error(error)
-        })
+        fetchData2();
+
+
+
+
+        const fetchData3 = async () => {
+            try {
+                const result = await apiController?. createdrecentTasks(token.id);
+                if (result.data.data?.length) {
+                    setcreatedrecent(result.data.data)
+                } else {
+                    setcreatedrecent(null)
+                }
+            } catch (error) {
+                toast.error(error)
+            }
+        };
+
+        fetchData3();
     }, [])
 
 
-
-    const handleviiewmore = () => {
-        if (empdetails?.account_type == 'Employee') {
-            <Link to='/task'></Link>
-        } else {
-            <Link to='/assign'></Link>
-        }
-    }
 
 
     console.log("Local str")
@@ -123,10 +138,14 @@ const Dash = () => {
     return (
         <>
             <div className='dashboard-main-container'>
+
                 <Sidebar />
 
 
+
                 <div className='assign-task-container'>
+                    <Hamburger />
+
                     <div className='asgn'>
                         {empdetails && empdetails?.account_type == 'Assigner' && (
 
@@ -153,7 +172,7 @@ const Dash = () => {
                                 <Card style={{ width: '20rem', height: '7rem' }}>
                                     <Card.Body>
                                         <Card.Title>My name</Card.Title>
-                                        
+
                                         {isLoading ? (
 
                                             <Placeholder as={Card.Title} animation="glow">
@@ -283,7 +302,7 @@ const Dash = () => {
                                     <Link style={{ textDecoration: 'none' }} to='/assign'>
                                         <Button variant='outline-primary'>View More...</Button>
                                     </Link>
-                                ) : createdrecent?.length ? (
+                                ) : empdetails?.account_type == 'Employee' && recenttasks?.length ? (
                                     <Link style={{ textDecoration: 'none' }} to='/task'><Button variant='outline-primary'>View More...</Button></Link>
                                 ) : (
                                     <></>

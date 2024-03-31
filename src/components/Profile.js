@@ -6,6 +6,8 @@ import { Button } from 'react-bootstrap';
 import { getUser } from '../api/endpoints';
 import toast from 'react-hot-toast';
 import { updateemployee } from '../api/endpoints';
+import apiController from '../api/endpoints';
+import Hamburger from './Hamburger';
 
 
 const Profile = () => {
@@ -23,22 +25,22 @@ const Profile = () => {
 
     useEffect(() => {
 
-
-
         const userdata = localStorage.getItem('empdetails');
         const token = JSON.parse(userdata);
 
 
-        getUser(token).then(d => {
 
-            console.log("data is ", d.status)
-            setempdetails(d.data)
-            //setIsLoading(false);
+        const fetchData = async () => {
+            try {
+                const data = await apiController.getUser(token);
+                setempdetails(data.data.data)
+                
+            } catch (error) {
+                toast.error(error)
+            }
+        };
 
-        }).catch(error => {
-            toast.error(error)
-            //setIsLoading(false);
-        })
+        fetchData();
     }, [])
 
     const handleChange = (event) => {
@@ -60,13 +62,11 @@ const Profile = () => {
 
         try {
 
-            await updateemployee(empdetails)
+            await apiController.updateemployee(empdetails)
 
             await toast.success("Profile Updated!");
 
             navigate('/dashboard');
-
-
 
             // Optionally, redirect or show a success message
         } catch (error) {
@@ -83,6 +83,7 @@ const Profile = () => {
         <div className='dashboard-main-container'>
             <Sidebar />
             <div className='assign-task-container'>
+                <Hamburger />
                 <div className='asgn'>
                     <div className='assign-child'>
                         <div>

@@ -4,9 +4,10 @@ import Link from "react-router-dom";
 import add from "../controller/employee/reg"
 import { regschema } from '../validation/emp/empschema';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 const Signup = () => {
 
-
+    const navigate = useNavigate();
 
     const [user, setuser] = useState({
         fname: "",
@@ -28,7 +29,7 @@ const Signup = () => {
 
 
 
-    const handelsubmit = () => {
+    const handelsubmit = async () => {
 
 
         const { error } = regschema.validate(user)
@@ -37,20 +38,14 @@ const Signup = () => {
             toast.error(error.message)
             return
         }
-        add(user).then(response => {
-            if (response == 201) {
-                
-                toast.success("Registered Successfully !")
-                //window.location.href = '/login'
-            } else {
-                toast.error('Email/Username already exists!')
-                //toast.error("Email already exists!")
-                return
-            }
+        try {
+            await add(user);
+            await toast.success("Registered Successfully !")
+            navigate("/login")
+        } catch (error) {
+            toast.error("Email/username already exists!")
+        }
 
-        }).catch(error => {
-            toast.error(error)
-        })
     }
 
     console.log("checkbox state:- ", check)

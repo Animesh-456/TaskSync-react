@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import login from '../controller/employee/login';
 import common from '../helpers/common'
 import { loginschema, regschema } from '../validation/emp/empschema';
+import apiController from '../api/endpoints';
 import toast from 'react-hot-toast';
 const Login = () => {
 
@@ -21,7 +22,7 @@ const Login = () => {
 
 
 
-  const handelsubmit = () => {
+  const handelsubmit = async () => {
 
 
     const { error } = loginschema.validate(user)
@@ -29,18 +30,17 @@ const Login = () => {
       toast.error(error.message)
       return
     }
-    login(user).then(response => {
-      if (response.toString() == "true") {
-        toast.success("Logged in!")
-        window.location.href = "/dashboard"
-      } else {
-        toast.error("Invalid Email or Password")
-      }
-    }).catch(error => {
-      console.log("Error is ", error)
-      toast.error(error)
-    })
+
+    try {
+      const d = await login(user)
+      await toast.success("Logged in!")
+      window.location.href = "/dashboard"
+
+    } catch (error) {
+      toast.error("Invalid email/username !")
+    }
   }
+
 
   console.log("checkbox state:- ", check)
   console.log("user data is :-", user)
@@ -96,16 +96,17 @@ const Login = () => {
 
 
       <div className="form-cont">
+        
         <h2>Login to <span style={{ color: 'red' }}> T</span>ask<span style={{ color: 'red' }}>S</span>ync</h2>
         <form onSubmit={handelsubmit}>
           <label htmlFor="name">Email/Username:</label>
           <input placeholder='Username or Email' type="email" value={user.email} onChange={setprofile("email")} id="email" name="email" />
 
-          <label htmlFor="name">Type Of account</label>
+          {/* <label htmlFor="name">Type Of account</label>
           <select id="account-type">
             <option value="Assigner">Assigner</option>
             <option value="Employee">Employee</option>
-          </select>
+          </select> */}
 
           <label htmlFor="email">Password:</label>
           <input placeholder="Password" value={user.password} onChange={setprofile("password")} type="password" id="password" name="password" />
