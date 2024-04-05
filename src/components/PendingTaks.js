@@ -9,6 +9,7 @@ import toast from 'react-hot-toast';
 import { markdone } from '../api/endpoints';
 
 import { useNavigate } from 'react-router-dom';
+import { backendFileroute } from '../common/links';
 
 const PendingTaks = (props) => {
 
@@ -50,6 +51,18 @@ const PendingTaks = (props) => {
                     )}
                     <Card.Text>
                         {props?.prop?.description}
+
+
+                        {props?.prop?.files?.length && (
+                            <p>Attachments: <br /> {props?.prop?.files?.map((f) => {
+                                return (
+                                    <>
+                                        <a target='blank' href={`${backendFileroute}/${f}`}>{f}</a>
+                                        <br />
+                                    </>
+                                )
+                            })}</p>
+                        )}
                     </Card.Text>
 
                     <div style={{ display: 'flex', flexDirection: 'row', gap: '2rem' }}>

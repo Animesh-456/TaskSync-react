@@ -329,9 +329,13 @@ const apiController = {
     },
 
 
-    addtask: async (body) => {
+    addtask: async (formData) => {
         try {
-            let resp = await axiosInstance.post(`/task/addtask`, body);
+            let resp = await axiosInstance.post(`/task/addtask`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            });
             return resp
         } catch (error) {
             throw error

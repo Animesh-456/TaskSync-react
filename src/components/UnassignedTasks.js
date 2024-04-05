@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { Badge } from 'react-bootstrap';
 import toast from 'react-hot-toast';
 import EditTaskModal from './EditTaskModal';
+import { backendFileroute } from '../common/links';
 const UnassignedTasks = (props) => {
 
 
@@ -27,6 +28,11 @@ const UnassignedTasks = (props) => {
     const handleEditModalClose = () => {
         setEditModalShow(false)
     }
+
+    props?.prop?.files?.map((f) => {
+        console.log("attachment files rae", f)
+    })
+
     return (
         <>
             <TaskModal show={lgShow} onHide={handleClose} detail={props?.prop} />
@@ -51,6 +57,20 @@ const UnassignedTasks = (props) => {
                     )}
                     <Card.Text>
                         {props?.prop?.description}
+
+                        {props?.prop?.files?.length && (
+                            <p>Attachments: <br /> {props?.prop?.files?.map((f) => {
+                                return (
+                                    <>
+                                        <a target='blank' href={`${backendFileroute}/${f}`}>{f}</a>
+                                        <br />
+                                    </>
+                                )
+                            })}</p>
+                        )}
+
+
+
                     </Card.Text>
 
                     <div style={{ display: 'flex', flexDirection: 'row', gap: '2rem' }}>

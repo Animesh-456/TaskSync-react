@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/Row';
 import { useNavigate } from 'react-router-dom';
 import { addtask } from '../api/endpoints'
 import toast from 'react-hot-toast';
+import apiController from '../api/endpoints';
 const AddTask = () => {
 
     const navigate = useNavigate();
@@ -21,26 +22,75 @@ const AddTask = () => {
 
     const [title, settitle] = useState(null);
     const [description, setdescription] = useState(null);
+    const [files, setFiles] = useState([]);
 
 
 
-    const wrapper = {
-        title: title,
-        description: description,
-        assignedBy: assignedBy
-    }
 
 
-    console.log("title", wrapper)
+    //console.log("title", wrapper)
+
+    const handleFileChange = (e) => {
+        //setFiles(e.target.files);
+        setFiles([...files, ...Array.from(e.target.files)]);
+    };
 
 
-    const handleconfirm = () => {
-        addtask(wrapper).then((d) => {
-            toast.success("Task Added !")
+
+
+
+    const handleconfirm = async (e) => {
+
+
+        e.preventDefault();
+
+
+
+
+        const wrapper = {
+            title: title,
+            description: description,
+            assignedBy: assignedBy,
+            files: files
+        }
+
+        const formData = new FormData();
+
+        for (const key of Object.keys(files)) {
+            formData.append("file", files[key]);
+        }
+
+        for (const key of Object.keys(wrapper)) {
+            formData.append(key, wrapper[key]);
+        }
+
+        console.log("formdata is:-", formData)
+        console.log("files are;-", files)
+
+
+
+
+        console.log("wrapper is", wrapper)
+
+
+
+        // let response = await fetch('http://localhost:4000/task/addtask', {
+        //     method: 'POST',
+        //     body: formData,
+
+        // })
+
+
+        try {
+            let result = await apiController.addtask(formData)
+            await toast.success("Task Added !")
             navigate('/assign')
-        }).catch(err => {
-            toast.error("Error Occured !")
-        })
+        } catch (error) {
+            toast.error(error.message)
+        }
+
+
+
     }
 
 
@@ -89,6 +139,12 @@ const AddTask = () => {
                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                     <Form.Label>Task Description</Form.Label>
                     <Form.Control value={description} onChange={(e) => setdescription(e.target.value)} as="textarea" rows={5} />
+                </Form.Group>
+
+
+                <Form.Group controlId="formFile" className="mb-3">
+                    <Form.Label>Default file input example</Form.Label>
+                    <Form.Control type="file" multiple onChange={handleFileChange} />
                 </Form.Group>
 
                 <div className='add-tsk-btn-container'>

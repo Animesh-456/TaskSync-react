@@ -33,6 +33,9 @@ const Login = () => {
 
     try {
       const d = await login(user)
+
+
+      console.log(d?.data)
       await toast.success("Logged in!")
       window.location.href = "/dashboard"
 
@@ -96,7 +99,7 @@ const Login = () => {
 
 
       <div className="form-cont">
-        
+
         <h2>Login to <span style={{ color: 'red' }}> T</span>ask<span style={{ color: 'red' }}>S</span>ync</h2>
         <form onSubmit={handelsubmit}>
           <label htmlFor="name">Email/Username:</label>

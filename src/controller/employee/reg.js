@@ -1,11 +1,11 @@
 import axios from "axios"
-const URL = 'http://localhost:4000';
+import { backendURL } from "../../common/links";
 const add = async (user) => {
 
 
     try {
 
-        const response = await axios.post(`${URL}/register`, user);
+        const response = await axios.post(`${backendURL}/register`, user);
         var usr = JSON.stringify(user);
         localStorage.setItem("empdetails", usr)
         return response

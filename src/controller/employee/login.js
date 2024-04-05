@@ -1,12 +1,13 @@
 import axios from "axios"
 import { useSetAtom } from "jotai";
 import useratom from "../../jotai/atom";
+import { backendURL } from "../../common/links";
 const URL = 'http://localhost:4000';
 
 const login = async (user) => {
 
     try {
-        const resp = await axios.post(`${URL}/login`, user);
+        const resp = await axios.post(`${backendURL}/login`, user);
         const usrstatus = JSON.stringify(resp.data.resp);
         let data = JSON.stringify(resp.data.usr);
         let obj = {

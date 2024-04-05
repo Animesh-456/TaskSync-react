@@ -5,6 +5,7 @@ import Card from 'react-bootstrap/Card';
 import TaskModal from './TaskModal';
 import RecentTaskModal from './RecentTaskModal';
 import Badge from 'react-bootstrap/Badge';
+import { backendFileroute } from '../common/links';
 const RecentTasks = (props) => {
     const handleClose = () => setLgShow(false);
     const handleShow = () => setLgShow(true);
@@ -42,6 +43,18 @@ const RecentTasks = (props) => {
 
                     <Card.Text>
                         {props?.prop?.description}
+
+
+                        {props?.prop?.files?.length && (
+                            <p>Attachments: <br /> {props?.prop?.files?.map((f) => {
+                                return (
+                                    <>
+                                        <a target='blank' href={`${backendFileroute}/${f}`}>{f}</a>
+                                        <br />
+                                    </>
+                                )
+                            })}</p>
+                        )}
                     </Card.Text>
 
                     <div style={{ display: 'flex', flexDirection: 'row', gap: '2rem' }}>

@@ -114,7 +114,7 @@ const Dash = () => {
 
         const fetchData3 = async () => {
             try {
-                const result = await apiController?. createdrecentTasks(token.id);
+                const result = await apiController?.createdrecentTasks(token.id);
                 if (result.data.data?.length) {
                     setcreatedrecent(result.data.data)
                 } else {
@@ -245,7 +245,7 @@ const Dash = () => {
 
                             {empdetails?.account_type == 'Assigner' ? (
                                 <div>
-                                    {createdrecent?.length ? createdrecent.map((l, index) => {
+                                    {createdrecent?.length ? createdrecent.slice(0, 5).map((l, index) => {
                                         return (
                                             <RecentTasks prop={l} />
                                         )
@@ -258,7 +258,7 @@ const Dash = () => {
                                 </div>
                             ) : (
                                 <div>
-                                    {recenttasks?.length ? recenttasks.map((l, index) => {
+                                    {recenttasks?.length ? recenttasks.slice(0, 5).map((l, index) => {
                                         return (
                                             <RecentTasks prop={l} />
                                         )

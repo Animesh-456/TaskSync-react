@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import TaskModal from './TaskModal';
 import { Badge } from 'react-bootstrap';
-
+import { backendFileroute } from '../common/links';
 const CompletedTasks = (props) => {
     const handleClose = () => setLgShow(false);
     const handleShow = () => setLgShow(true);
@@ -34,12 +34,23 @@ const CompletedTasks = (props) => {
                     )}
                     <Card.Text>
                         {props?.prop?.description}
+
+                        {props?.prop?.files?.length && (
+                            <p>Attachments: <br /> {props?.prop?.files?.map((f) => {
+                                return (
+                                    <>
+                                        <a target='blank' href={`${backendFileroute}/${f}`}>{f}</a>
+                                        <br />
+                                    </>
+                                )
+                            })}</p>
+                        )}
                     </Card.Text>
 
                     <div style={{ display: 'flex', flexDirection: 'row', gap: '2rem' }}>
                         <Button variant="secondary" onClick={handleShow}>Details</Button>
                         {/* <Button variant="success">Assign Task</Button> */}
-                        
+
                     </div>
                 </Card.Body>
             </Card>
