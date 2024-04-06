@@ -31,6 +31,8 @@ import Fallback from './components/Fallback';
 // import Detail from './components/taskdetail/Detail';
 import TaskDetails from './components/TaskDetails';
 import { Spinner } from 'react-bootstrap';
+import ForgetPassword from './components/ForgetPassword';
+import Resetpassword from './components/ResetPassword';
 
 const Dashboard = React.lazy(() => import("./components/Dash"));
 
@@ -56,14 +58,28 @@ function App() {
           {/* {window.location.pathname === '/assign/:taskId' && null} */}
           {/* {excludeSidebarRoutes.includes(window.location.pathname) ? null : <Sidebar />} */}
           <Routes>
-            <Route path="/" element={<Home />} />
+
+            <Route path='/' element={
+              <React.Suspense fallback={<Fallback />}>
+                <Home />
+              </React.Suspense>
+            } />
+
+
             <Route path="/about" element={<About />} />
             <Route path="/services" element={<Services />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path='/forgetpassword' element={<ForgetPassword />} />
 
 
+
+            <Route path='/resetpassword' element={
+              <React.Suspense fallback={<Fallback />}>
+                <Resetpassword />
+              </React.Suspense>
+            } />
 
 
 

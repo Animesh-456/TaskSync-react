@@ -404,6 +404,24 @@ const apiController = {
         } catch (error) {
             throw error
         }
+    },
+
+    resetpasswordlink: async (body) => {
+        try {
+            let res = await axiosInstance.post('/send-reset-password-link', body)
+            return res
+        } catch (error) {
+            throw error
+        }
+    },
+
+    resetpassword: async (body) => {
+        try {
+            let res = await axiosInstance.post('/reset-password', body)
+            return res
+        } catch (error) {
+            throw error
+        }
     }
     // Add more functions for other API requests
 };
