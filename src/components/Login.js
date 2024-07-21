@@ -54,8 +54,8 @@ const Login = () => {
 
         <h2>Login to <span style={{ color: 'red' }}> T</span>ask<span style={{ color: 'red' }}>S</span>ync</h2>
         <form onSubmit={handelsubmit}>
-          <label htmlFor="name">Email/Username:</label>
-          <input placeholder='Username or Email' type="email" value={user.email} onChange={setprofile("email")} id="email" name="email" />
+          <label htmlFor="name">Email:</label>
+          <input placeholder='Type your Email' type="email" value={user.email} onChange={setprofile("email")} id="email" name="email" />
 
 
           <label htmlFor="email">Password:</label>
