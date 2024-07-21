@@ -29,8 +29,7 @@ const ForgetPassword = () => {
             const d = await apiController.resetpasswordlink(user)
             console.log(d?.data)
             await toast.success("Link sent to email")
-            return
-            //window.location.href = "/resetpassword"
+            window.location.href = "/"
         } catch (error) {
             toast.error(error.message)
         }
