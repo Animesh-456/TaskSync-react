@@ -1,7 +1,7 @@
 const frontendroute = 'http://localhost:3000';
 
-const backendFileroute = 'https://tascsync-backend.onrender.com/uploads'
+const backendFileroute = 'http://localhost:4000/uploads'
 
-const backendURL = 'https://tascsync-backend.onrender.com'
+const backendURL = 'http://localhost:4000'
 
 export { frontendroute, backendFileroute, backendURL }
