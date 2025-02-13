@@ -1,38 +1,38 @@
-# name: CI/CD Pipeline for React & Node.js
+name: CI/CD Pipeline for React & Node.js
 
-# on:
-#   push:
-#     branches:
-#       - master
+on:
+  push:
+    branches:
+      - master
 
-# jobs:
-#   deploy:
-#     runs-on: ubuntu-latest
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
 
-#     steps:
-#     - name: Checkout Code
-#       uses: actions/checkout@v2
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2
 
-#     - name: Setup Node.js
-#       uses: actions/setup-node@v3
-#       with:
-#         node-version: '18'
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
 
-#     # Build React Frontend
-#     - name: Build React App
-#       working-directory: /sites/TaskSync-react
-#       run: |
-#         npm install
-#         npm run build
+    # Build React Frontend
+    - name: Build React App
+      working-directory: /sites/TaskSync-react
+      run: |
+        npm install
+        npm run build
 
-#     # Deploy to Azure VM
-#     - name: Deploy to Azure VM via SSH
-#       uses: appleboy/ssh-action@v0.1.6
-#       with:
-#         host: ${{ secrets.AZURE_HOST }}
-#         username: ${{ secrets.AZURE_USER }}
-#         key: ${{ secrets.AZURE_SSH_KEY }}
-#         script: |
-#           cd /sites/TaskSync-react
-#           git pull origin master
-#           pm2 restart 0
+    # Deploy to Azure VM
+    - name: Deploy to Azure VM via SSH
+      uses: appleboy/ssh-action@v0.1.6
+      with:
+        host: ${{ secrets.AZURE_HOST }}
+        username: ${{ secrets.AZURE_USER }}
+        key: ${{ secrets.AZURE_SSH_KEY }}
+        script: |
+          cd /sites/TaskSync-react
+          git pull origin master
+          pm2 restart 0
