@@ -21,7 +21,6 @@ jobs:
     # Build React Frontend
     - name: Build React App 
       run: |
-        cd $GITHUB_WORKSPACE
         npm run build
 
     # Deploy to Azure VM
