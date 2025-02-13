@@ -18,6 +18,10 @@ jobs:
       with:
         node-version: '18'
 
+    - name: Install Dependencies
+      run: |
+        npm install
+
     # Build React Frontend
     - name: Build React App 
       run: |
