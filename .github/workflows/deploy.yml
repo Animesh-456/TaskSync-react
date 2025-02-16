@@ -23,5 +23,6 @@ jobs:
           source ~/.nvm/nvm.sh
           cd /home/azureuser/sites/TaskSync-react
           npm install
+          npm run build
           /home/azureuser/.nvm/versions/node/v18.20.6/bin/pm2 restart all
          
