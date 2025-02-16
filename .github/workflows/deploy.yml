@@ -17,9 +17,9 @@ jobs:
         username: ${{ secrets.AZURE_USER }}
         key: ${{ secrets.AZURE_SSH_KEY }}
         script: |
+          git pull origin master
           export NVM_DIR=~/.nvm
           source ~/.nvm/nvm.sh
           cd /home/azureuser/sites/TaskSync-react
-          git pull origin master
           npm install
           /home/azureuser/.nvm/versions/node/v18.20.6/bin/pm2 restart all
