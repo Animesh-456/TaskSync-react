@@ -22,4 +22,4 @@ jobs:
           cd /home/azureuser/sites/TaskSync-react
           git pull origin master
           npm install
-          ~/.npm-global/bin/pm2 restart all
+          /home/azureuser/.nvm/versions/node/v18.20.6/bin/pm2 restart all
