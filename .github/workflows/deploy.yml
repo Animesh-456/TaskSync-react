@@ -5,7 +5,7 @@ on:
     branches:
       - master
   pull_request:
-    types: [closed]
+    types: [closed] # To run the workflow only when the PR is merged
     branches:
       - master  
 
